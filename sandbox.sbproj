@@ -2,7 +2,7 @@
   "Title": "Sandbox Classic",
   "Type": "game",
   "Org": "softsplit",
-  "Ident": "sandbox",
+  "Ident": "sandbox_classic",
   "Schema": 1,
   "IncludeSourceFiles": false,
   "Resources": "/menu/*\n*.vmdl_c.png\nentity/*.png",
