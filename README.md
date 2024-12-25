@@ -1,4 +1,4 @@
-# Sandbox Classic
+# ![Sandbox Classic](https://files.softsplit.org/sandboxclassic_nobg.png)
 > [!NOTE]
 > Looking for an enhanced reimplementation, closer to Garry's Mod? Check out [Sandbox++](https://github.com/Softsplit/sandbox-plus-plus).
 
