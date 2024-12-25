@@ -1,6 +1,6 @@
 # ![Sandbox Classic](https://files.softsplit.org/sandboxclassic_nobg.png)
 > [!NOTE]
-> Looking for an enhanced reimplementation, closer to Garry's Mod? Check out [Sandbox++](https://github.com/Softsplit/sandbox-plus-plus).
+> Looking for a more extended and enhanced edition, closer to Garry's Mod? Check out [Sandbox++](https://github.com/Softsplit/sandbox-plus-plus).
 
 The Sandbox gamemode in all its *unfinished* glory, wholly ported from the entity system. Missing features beware!
 
