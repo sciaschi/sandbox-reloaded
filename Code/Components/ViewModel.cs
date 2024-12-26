@@ -38,7 +38,7 @@ public class ViewModel : Component
 
 		if ( !activated )
 		{
-			lastPitch = inRot.Pitch().Clamp( -89f, 89f );
+			lastPitch = inRot.Pitch();
 			lastYaw = inRot.Yaw();
 
 			YawInertia = 0;
@@ -65,17 +65,39 @@ public class ViewModel : Component
 		var newPitch = WorldRotation.Pitch();
 		var newYaw = WorldRotation.Yaw();
 
-		bool pitchInRange = newPitch < 89f && newPitch > -89f;
-
-		var pitchDelta = pitchInRange ? Angles.NormalizeAngle( newPitch - lastPitch ) : 0;
-		var yawDelta = pitchInRange ? Angles.NormalizeAngle( lastYaw - newYaw ) : 0;
+		var pitchDelta = Angles.NormalizeAngle( newPitch - lastPitch );
+		var yawDelta = Angles.NormalizeAngle( lastYaw - newYaw );
 
 		PitchInertia += pitchDelta;
 		YawInertia += yawDelta;
 
 		if ( EnableSwingAndBob )
 		{
-			CalcSwingAndBob( newPitch, pitchDelta, yawDelta );
+			var player = Player.FindLocalPlayer();
+			var playerVelocity = player.Controller.Velocity;
+
+			if ( player.IsValid() )
+			{
+				var controller = player.Controller;
+				if ( controller.IsValid() && controller.Tags.Has( "noclip" ) )
+				{
+					playerVelocity = Vector3.Zero;
+				}
+			}
+
+			var verticalDelta = playerVelocity.z * Time.Delta;
+			var viewDown = Rotation.FromPitch( newPitch ).Up * -1.0f;
+			verticalDelta *= 1.0f - MathF.Abs( viewDown.Cross( Vector3.Down ).y );
+			pitchDelta -= verticalDelta * 1.0f;
+
+			var speed = playerVelocity.WithZ( 0 ).Length;
+			speed = speed > 10.0 ? speed : 0.0f;
+			bobSpeed = bobSpeed.LerpTo( speed, Time.Delta * InertiaDamping );
+
+			var offset = CalcSwingOffset( pitchDelta, yawDelta );
+			offset += CalcBobbingOffset( bobSpeed );
+
+			WorldPosition += WorldRotation * offset;
 		}
 		else
 		{
@@ -83,51 +105,11 @@ public class ViewModel : Component
 			Renderer.Set( "aim_pitch_inertia", PitchInertia );
 		}
 
-		if ( pitchInRange )
-		{
-			lastPitch = newPitch;
-			lastYaw = newYaw;
-		}
+		lastPitch = newPitch;
+		lastYaw = newYaw;
 
 		YawInertia = YawInertia.LerpTo( 0, Time.Delta * InertiaDamping );
 		PitchInertia = PitchInertia.LerpTo( 0, Time.Delta * InertiaDamping );
-	}
-
-	private void CalcSwingAndBob( float newPitch, float pitchDelta, float yawDelta )
-	{
-		var player = Player.FindLocalPlayer();
-		var playerVelocity = player.Controller.Velocity;
-
-		if ( player.IsValid() )
-		{
-			var controller = player.Controller;
-			if ( controller.IsValid() && controller.Tags.Has( "noclip" ) )
-			{
-				playerVelocity = Vector3.Zero;
-			}
-		}
-
-		var verticalDelta = playerVelocity.z * Time.Delta;
-		var viewDown = Rotation.FromPitch( newPitch < 89f && newPitch > -89f ? newPitch : lastPitch ).Up * -1.0f;
-
-		verticalDelta *= 1.0f - MathF.Abs( viewDown.Cross( Vector3.Down ).y );
-
-		if ( float.IsNaN( verticalDelta ) )
-			return;
-
-		pitchDelta -= verticalDelta * 1.0f;
-
-		if ( float.IsNaN( pitchDelta ) )
-			return;
-
-		var speed = playerVelocity.WithZ( 0 ).Length;
-		speed = speed > 10.0 ? speed : 0.0f;
-		bobSpeed = bobSpeed.LerpTo( speed, Time.Delta * InertiaDamping );
-
-		var offset = CalcSwingOffset( pitchDelta, yawDelta );
-		offset += CalcBobbingOffset( bobSpeed );
-
-		WorldPosition += WorldRotation * offset;
 	}
 
 	protected Vector3 CalcSwingOffset( float pitchDelta, float yawDelta )

@@ -82,6 +82,7 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 	{
 		var player = Components.Get<Player>();
 		var angles = ang;
+		angles = angles.WithPitch( angles.pitch.Clamp( -89, 89 ) );
 		ILocalPlayerEvent.Post( x => x.OnCameraMove( ref angles ) );
 		ang = angles;
 	}
