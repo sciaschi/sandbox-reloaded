@@ -2,6 +2,17 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 {
 	public GameManager( Scene scene ) : base( scene )
 	{
+		Listen( Stage.SceneLoaded, 0, OnSceneLoad, "OnSceneLoad" );
+	}
+
+	public void OnSceneLoad()
+	{
+		// If we are a host, spawn our core prefab
+		if ( Networking.IsHost && !Game.ActiveScene.GetAllComponents<MainMenuPanel>().Any() && !Game.ActiveScene.IsEditor )
+		{
+			var core = GameObject.Clone( "prefabs/core.prefab" );
+			core.BreakFromPrefab();
+		}
 	}
 
 	void ISceneStartup.OnHostPreInitialize( SceneFile scene )

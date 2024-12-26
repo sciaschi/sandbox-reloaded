@@ -65,12 +65,38 @@
                 Name = "Sandbox Classic Server"
             };
 
-        LaunchArguments.Map = "softsplit.gm_bigcity";
+        LaunchArguments.Map = "garry.humanlife";
     }
 
-    void CreateGame()
+    async void CreateGame()
     {
-        Game.ActiveScene.Load(MainMenuPanel.Current.GameScene);
+		// Fetch our map
+		var pkg = await Package.FetchAsync(LaunchArguments.Map, false);
+
+		if (pkg is null) return;
+
+		await pkg?.MountAsync();
+
+		var primaryAsset = pkg?.GetMeta<string>("PrimaryAsset");
+
+		if (string.IsNullOrEmpty(primaryAsset)) return;
+
+		// If our map is a scenemap, load it
+		if (primaryAsset.EndsWith(".scene"))
+		{
+			var sceneFile = pkg?.GetMeta<SceneFile>("PrimaryAsset");
+			
+			// Load our fallback scene
+			if (sceneFile is null)
+			{
+				Game.ActiveScene?.Load(MainMenuPanel.Current?.GameScene);
+			}
+
+			Game.ActiveScene?.Load(sceneFile);
+		}
+		else
+			Game.ActiveScene?.Load(MainMenuPanel.Current?.GameScene);
+
         Networking.CreateLobby(CurrentConfig);
     }
 
