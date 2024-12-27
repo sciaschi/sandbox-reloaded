@@ -78,8 +78,8 @@
 	public Vector3 PivotPosition { get; set; }
 	bool ReverseDirection { get; set; }
 
-	[Sync( SyncFlags.FromHost )] public TimeSince LastUse { get; set; }
-	[Sync( SyncFlags.FromHost )] public DoorState State { get; set; } = DoorState.Closed;
+	[HostSync] public TimeSince LastUse { get; set; }
+	[HostSync] public DoorState State { get; set; } = DoorState.Closed;
 
 	private DoorState DefaultState { get; set; } = DoorState.Closed;
 
