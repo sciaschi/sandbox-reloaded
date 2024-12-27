@@ -28,7 +28,7 @@
           "__guid": "053b9354-3f9b-4cbf-837b-932a5a04f3ae",
           "__version": 1,
           "EnableCollision": true,
-          "MapName": "garry.humanlife",
+          "MapName": "softsplit.gm_bigcity",
           "NoOrigin": true,
           "OnMapLoaded": null,
           "OnMapUnloaded": null,
@@ -38,7 +38,8 @@
           "__type": "MapPlayerSpawner",
           "__guid": "3966a6fc-2262-4539-b528-4104452cd041"
         }
-      ]
+      ],
+      "Children": []
     }
   ],
   "SceneProperties": {

@@ -86,6 +86,8 @@
 
         if (primaryAsset.EndsWith(".scene"))
         {
+            await mapPackage.MountAsync();
+
             var sceneFile = mapPackage.GetMeta<SceneFile>("PrimaryAsset");
             sceneLoadOptions.SetScene(sceneFile);
             Scene.Load(sceneLoadOptions);

@@ -37,9 +37,9 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 			sceneLoadOptions.SetScene( "scenes/engine.scene" );
 			Scene.Load( sceneLoadOptions );
 
-			if ( Game.IsEditor )
+			if ( !Networking.IsActive )
 			{
-				Networking.CreateLobby( new LobbyConfig { Name = "Sandbox Classic Server (Editor)" } );
+				Networking.CreateLobby( new LobbyConfig { Name = "Sandbox Classic Server" } );
 			}
 		}
 	}

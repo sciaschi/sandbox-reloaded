@@ -31,13 +31,14 @@ public class MoveModeNoclip : MoveMode
 		input = input.ClampLength( 1 );
 
 		var wishVelocity = eyes * input * Controller.RunSpeed;
-		if ( Input.Down( "run" ) ) wishVelocity *= 5.0f;
-		if ( Input.Down( "duck" ) ) wishVelocity *= 0.2f;
 
 		if ( Input.Down( "jump" ) )
 		{
 			wishVelocity += Vector3.Up * Controller.JumpSpeed;
 		}
+
+		if ( Input.Down( "run" ) ) wishVelocity *= 5.0f;
+		if ( Input.Down( "duck" ) ) wishVelocity *= 0.2f;
 
 		return wishVelocity;
 	}
