@@ -1,4 +1,6 @@
+using Sandbox;
 using Sandbox.ModelEditor.Nodes;
+using System.IO;
 
 /// <summary>
 /// A component to help deal with props.
@@ -19,8 +21,10 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Sync] public ModelPhysics ModelPhysics { get; set; }
 	[Sync] public Rigidbody Rigidbody { get; set; }
 	[Sync] public NetDictionary<int, BodyInfo> NetworkedBodies { get; set; } = new();
-
 	public List<FixedJoint> Welds { get; set; } = new();
+	public List<SpringJoint> Ropes { get; set; } = new();
+	public List<LegacyParticleSystem> RopeParticles { get; set; } = new();
+	public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = new();
 	public List<Joint> Joints { get; set; } = new();
 
 	private Vector3 lastPosition = Vector3.Zero;
@@ -38,6 +42,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		Velocity = 0f;
 
 		lastPosition = Prop?.WorldPosition ?? WorldPosition;
+
+		RopeParticles = Components.GetAll<LegacyParticleSystem>().ToList();
 	}
 
 	[Rpc.Broadcast]
@@ -140,6 +146,11 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		}
 
 		UpdateNetworkedBodies();
+	}
+
+	protected override void OnUpdate()
+	{
+		UpdateRopes();
 	}
 
 	private void UpdateNetworkedBodies()
@@ -367,6 +378,116 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	}
 
 	[Rpc.Broadcast]
+	public void Rope( GameObject to, Vector3 fromPos, Vector3 toPos, float minLength = 0, float maxLength = 100 )
+	{
+		if ( IsProxy )
+			return;
+
+		PropHelper propHelper = to.Components.Get<PropHelper>();
+
+		var point1Go = new GameObject();
+		point1Go.SetParent( GameObject );
+		point1Go.LocalPosition = fromPos;
+
+		var point2Go = new GameObject();
+		point2Go.SetParent( to );
+		point2Go.LocalPosition = toPos;
+
+		var springJoint = point1Go.Components.Create<SpringJoint>();
+		springJoint.Body = point2Go;
+		springJoint.Attachment = Joint.AttachmentMode.LocalFrames;
+		springJoint.MinLength = minLength;
+		springJoint.MaxLength = maxLength;
+
+		Ropes?.Add( springJoint );
+		Joints?.Add( springJoint );
+		propHelper?.Ropes?.Add( springJoint );
+		propHelper?.Joints?.Add( springJoint );
+	}
+
+	[Rpc.Broadcast]
+	public void SetRopePoints( List<GameObject> tos, List<Vector3> fromPoints, List<Vector3> toPoints )
+	{
+		RopePoints = new();
+
+		for(int i = 0; i < MathF.Min(tos.Count, fromPoints.Count) && i < toPoints.Count; i++ )
+		{
+			RopePoints?.Add( (
+				tos[i],
+				fromPoints[i],
+				toPoints[i]
+			) );
+		};
+	}
+
+	public void UpdateRopes()
+	{
+		if( !IsProxy )
+		{
+			List<GameObject> tos = new();
+			List<Vector3> fromPoints = new();
+			List<Vector3> toPoints = new();
+
+			foreach ( var rope in Ropes )
+			{
+				if ( !rope.Body.IsValid() )
+					continue;
+
+				if ( !rope.GameObject.IsValid() )
+					continue;
+
+				if ( !GameObject.IsDescendant( rope.GameObject ) )
+					continue;
+
+
+				tos.Add( rope.Body );
+				fromPoints.Add( rope.LocalPosition );
+				toPoints.Add( rope.Body.LocalPosition );
+			}
+			SetRopePoints( tos, fromPoints, toPoints );
+		}
+
+		List<LegacyParticleSystem> ParticlesToRemove = new();
+
+		while ( RopeParticles.Count < RopePoints.Count )
+		{
+			var particle = Components.Create<LegacyParticleSystem>();
+			particle.Particles = ParticleSystem.Load( "particles/rope.vpcf" );
+			RopeParticles?.Add( particle );
+		}
+
+		for ( int i = 0; i < RopeParticles.Count || i < RopePoints.Count; i++ )
+		{
+			if( i >= RopePoints.Count )
+			{
+				ParticlesToRemove.Add( RopeParticles[i] );
+			}
+			else
+			{
+				if ( RopeParticles.Count < i )
+					continue;
+
+				if ( !RopeParticles[i].IsValid() )
+					continue;
+
+				if ( !RopePoints[i].to.IsValid() )
+					continue;
+
+				RopeParticles[i].SceneObject.SetControlPoint( 0, WorldTransform.PointToWorld( RopePoints[i].frompoint ) );
+				RopeParticles[i].SceneObject.SetControlPoint( 1, RopePoints[i].to.WorldTransform.PointToWorld( RopePoints[i].toPoint ) );
+			}
+		}
+
+		foreach( var particle in ParticlesToRemove )
+		{
+			RopeParticles?.Remove( particle );
+
+			particle?.Destroy();
+		}
+
+	}
+
+	[Rpc.Broadcast]
 	public void Hinge( GameObject to, Vector3 position, Vector3 normal )
 	{
 		if ( IsProxy )
@@ -387,8 +508,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		var hingeJoint = go.Components.Create<HingeJoint>();
 		hingeJoint.Body = GameObject;
 
-		Joints.Add( hingeJoint );
+		Joints?.Add( hingeJoint );
 
-		propHelper?.Joints.Add( hingeJoint );
+		propHelper?.Joints?.Add( hingeJoint );
 	}
 }
