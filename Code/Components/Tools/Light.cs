@@ -1,5 +1,5 @@
-﻿[Library( "tool_balloon", Title = "Balloons", Description = "Create Balloons!", Group = "construction" )]
-public class BalloonTool : BaseTool
+﻿[Library( "tool_light", Title = "Lights", Description = "A dynamic point light", Group = "construction" )]
+public class LightTool : BaseTool
 {
 	PreviewModel PreviewModel;
 	RealTimeSince timeSinceDisabled;
@@ -11,8 +11,9 @@ public class BalloonTool : BaseTool
 
 		PreviewModel = new PreviewModel
 		{
-			ModelPath = "models/citizen_props/balloonregular01.vmdl_c",
-			RotationOffset = Rotation.From( new Angles( 0, 0, 0 ) ),
+			ModelPath = "models/light/light_tubular.vmdl",
+			NormalOffset = 8f,
+			PositionOffset = -Model.Load( "models/light/light_tubular.vmdl" ).Bounds.Center,
 			FaceNormal = false
 		};
 	}
@@ -37,19 +38,17 @@ public class BalloonTool : BaseTool
 
 		if ( Input.Pressed( "attack1" ) )
 		{
-			if ( trace.Tags.Contains( "balloon" ) || trace.Tags.Contains( "player" ) )
+			if ( trace.Tags.Contains( "lamp" ) || trace.Tags.Contains( "player" ) )
 				return true;
 
-			var balloon = SpawnBalloon( trace );
+			var lamp = SpawnLamp( trace );
 
-			balloon.Components.Create<BalloonGravity>();
-
-			PropHelper propHelper = balloon.Components.Get<PropHelper>();
+			PropHelper propHelper = lamp.Components.Get<PropHelper>();
 
 			if ( !propHelper.IsValid() )
 				return true;
-			
-			propHelper.Rope( trace.GameObject, Vector3.Zero, trace.GameObject.WorldTransform.PointToLocal(trace.EndPosition));
+
+			propHelper.Rope( trace.GameObject, Vector3.Zero, trace.GameObject.WorldTransform.PointToLocal( trace.EndPosition ) );
 
 			return true;
 		}
@@ -57,9 +56,9 @@ public class BalloonTool : BaseTool
 		return false;
 	}
 
-	void PositionBalloon( GameObject balloon, SceneTraceResult trace )
+	void PositionLamp( GameObject lamp, SceneTraceResult trace )
 	{
-		balloon.WorldPosition = trace.HitPosition;
+		lamp.WorldPosition = trace.HitPosition + PreviewModel.PositionOffset;
 	}
 
 	protected override void OnDestroy()
@@ -74,17 +73,17 @@ public class BalloonTool : BaseTool
 		PreviewModel?.Destroy();
 	}
 
-	GameObject SpawnBalloon( SceneTraceResult trace )
+	GameObject SpawnLamp( SceneTraceResult trace )
 	{
 		var go = new GameObject()
 		{
-			Tags = { "solid", "balloon" }
+			Tags = { "solid", "lamp" }
 		};
 
-		PositionBalloon( go, trace );
+		PositionLamp( go, trace );
 
 		var prop = go.AddComponent<Prop>();
-		prop.Model = Model.Load( "models/citizen_props/balloonregular01.vmdl_c" );
+		prop.Model = Model.Load( "models/light/light_tubular.vmdl" );
 
 		var propHelper = go.AddComponent<PropHelper>();
 		propHelper.Invincible = true;
@@ -106,6 +105,12 @@ public class BalloonTool : BaseTool
 				newCollider.Scale = prop.Model.PhysicsBounds.Size;
 			}
 		}
+
+		var light = go.AddComponent<PointLight>();
+		light.Shadows = false;
+		light.Radius = 128;
+		light.Attenuation = 1.0f;
+		light.LightColor = Color.Random;
 
 		go.NetworkSpawn();
 		go.Network.SetOrphanedMode( NetworkOrphaned.Host );

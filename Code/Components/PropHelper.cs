@@ -377,7 +377,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	}
 
 	[Rpc.Broadcast]
-	public void Rope( GameObject to, Vector3 fromPos, Vector3 toPos, float minLength = 0, float maxLength = 100 )
+	public void Rope( GameObject to, Vector3 fromPos, Vector3 toPos, float minLength = 0, float maxLength = 100, bool collision = true )
 	{
 		if ( IsProxy )
 			return;
@@ -389,10 +389,18 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		point1Go.LocalPosition = fromPos;
 
 		var point2Go = new GameObject();
-		point2Go.SetParent( to );
+		if( !to.Tags.Contains("map") )
+		{
+			point2Go.SetParent( to );
+		}
+		else
+		{
+			point2Go.AddComponent<Rigidbody>().MotionEnabled = false;
+		}
 		point2Go.LocalPosition = toPos;
 
 		var springJoint = point1Go.Components.Create<SpringJoint>();
+		springJoint.EnableCollision = collision;
 		springJoint.Body = point2Go;
 		springJoint.Attachment = Joint.AttachmentMode.LocalFrames;
 		springJoint.MinLength = minLength;

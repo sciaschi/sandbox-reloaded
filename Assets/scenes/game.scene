@@ -21,6 +21,7 @@
       "__guid": "c2e2b2e8-62e8-4ef3-8336-002a3a68f88e",
       "Flags": 0,
       "Name": "Map Loader",
+      "Tags": "map",
       "Enabled": true,
       "Components": [
         {
@@ -28,7 +29,7 @@
           "__guid": "053b9354-3f9b-4cbf-837b-932a5a04f3ae",
           "__version": 1,
           "EnableCollision": true,
-          "MapName": "softsplit.gm_bigcity",
+          "MapName": "facepunch.construct23",
           "NoOrigin": true,
           "OnMapLoaded": null,
           "OnMapUnloaded": null,
