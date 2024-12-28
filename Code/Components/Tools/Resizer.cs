@@ -1,86 +1,84 @@
-// TODO: I can't get this to work with ModelPhysics so I'm leaving it here
-// for someone else
+using System.Diagnostics;
 
-/*
 [Library( "tool_resizer", Title = "Resizer", Description = "Change the scale of things", Group = "construction" )]
-public partial class ResizerTool : BaseTool
+public class Resizer : BaseTool
 {
 	public override bool Primary( SceneTraceResult trace )
 	{
-		int resizeDir = 0;
-		var reset = false;
-
-		if ( Input.Down( "attack1" ) ) resizeDir = 1;
-		else if ( Input.Down( "attack2" ) ) resizeDir = -1;
-		else if ( Input.Pressed( "reload" ) ) reset = true;
-		else return false;
-
-		if ( !trace.Hit || !trace.GameObject.IsValid() )
+		if ( !trace.Hit )
 			return false;
 
-		var go = trace.GameObject.Root;
-		if ( !go.IsValid() )
-			return false;
-
-		if ( !go.Components.TryGet<PropHelper>( out var propHelper ) )
-			return false;
-
-		var scale = reset ? 1.0f : new Vector3(
-			MathX.Clamp( go.WorldScale.x + (0.5f * Time.Delta * resizeDir), 0.4f, 4.0f ),
-			MathX.Clamp( go.WorldScale.y + (0.5f * Time.Delta * resizeDir), 0.4f, 4.0f ),
-			MathX.Clamp( go.WorldScale.z + (0.5f * Time.Delta * resizeDir), 0.4f, 4.0f )
-		);
-
-		if ( go.WorldScale != scale )
+		var skinnedModelRenderer = trace.GameObject.GetComponent<SkinnedModelRenderer>();
+		if ( skinnedModelRenderer.IsValid() )
 		{
-			go.WorldScale = scale;
+			var go = skinnedModelRenderer.GetBoneObject( trace.Bone );
+			var size = go.WorldScale;
+			size = size + (0.5f * Time.Delta);
 
-			if ( !propHelper.Rigidbody.IsValid() || !propHelper.ModelPhysics.IsValid() )
-				return false;
+			SetRagSize( trace.GameObject, size, trace.Bone );
 
-			if ( propHelper.Rigidbody.IsValid() )
-			{
-				propHelper.Rigidbody.PhysicsBody.RebuildMass();
-				propHelper.Rigidbody.PhysicsBody.Sleeping = false;
-			}
-
-			if ( propHelper.ModelPhysics.IsValid() )
-			{
-				propHelper.ModelPhysics.PhysicsGroup.RebuildMass();
-				propHelper.ModelPhysics.PhysicsGroup.Sleeping = false;
-			}
-
-			foreach ( var child in go.Children )
-			{
-				if ( !child.IsValid() )
-					continue;
-
-				if ( go.Components.TryGet<PropHelper>( out var childPropHelper ) )
-					return false;
-
-				if ( !childPropHelper.Rigidbody.IsValid() || !childPropHelper.ModelPhysics.IsValid() )
-					continue;
-
-				if ( childPropHelper.Rigidbody.IsValid() )
-				{
-					childPropHelper.Rigidbody.PhysicsBody.RebuildMass();
-					childPropHelper.Rigidbody.PhysicsBody.Sleeping = false;
-				}
-
-				if ( childPropHelper.ModelPhysics.IsValid() )
-				{
-					childPropHelper.ModelPhysics.PhysicsGroup.RebuildMass();
-					childPropHelper.ModelPhysics.PhysicsGroup.Sleeping = false;
-				}
-			}
-		}
-
-		if ( Input.Pressed( "attack1" ) || Input.Pressed( "attack2" ) || reset )
-		{
 			return true;
 		}
+		else
+		{
+			var go = trace.GameObject;
+			var size = go.WorldScale;
+			size = size + (0.5f * Time.Delta);
 
-		return false;
+			SetPropSize( trace.GameObject, size );
+
+			return true;
+		}
+	}
+
+	public override bool Secondary( SceneTraceResult trace )
+	{
+		if ( !trace.Hit )
+			return false;
+
+		if ( !trace.GameObject.IsValid() )
+			return false;
+
+		var skinnedModelRenderer = trace.GameObject.GetComponent<SkinnedModelRenderer>();
+		if (skinnedModelRenderer.IsValid())
+		{
+			var go = skinnedModelRenderer.GetBoneObject(trace.Bone);
+			var size = go.WorldScale;
+			size = size - (0.5f * Time.Delta);
+
+			SetRagSize( trace.GameObject, size, trace.Bone );
+
+			return true;
+		}
+		else
+		{
+			var go = trace.GameObject;
+			var size = go.WorldScale;
+			size = size - (0.5f * Time.Delta);
+
+			SetPropSize( trace.GameObject, size );
+
+			return true;
+		}
+	}
+
+	[Rpc.Broadcast]
+	void SetPropSize( GameObject gameObject, Vector3 size )
+	{
+		gameObject.WorldScale = size;
+	}
+
+	[Rpc.Broadcast]
+	void SetRagSize( GameObject gameObject, Vector3 size, int index )
+	{
+		var skinnedModelRenderer = gameObject.GetComponent<SkinnedModelRenderer>();
+
+		if ( !skinnedModelRenderer.IsValid() )
+			return;
+
+		var go = skinnedModelRenderer.GetBoneObject( index );
+
+		go.Flags = GameObjectFlags.ProceduralBone;
+		go.WorldScale = size;
 	}
 }
-*/
