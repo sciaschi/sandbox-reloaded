@@ -2,7 +2,7 @@
 {
 	public string ModelPath { get; set; }
 	public Vector3 PositionOffset { get; set; }
-	public Rotation RotationOffset { get; set; }
+	public Rotation RotationOffset { get; set; } = new Angles( 0, 0, 0 );
 	public float NormalOffset { get; set; }
 	public bool FaceNormal { get; set; }
 
