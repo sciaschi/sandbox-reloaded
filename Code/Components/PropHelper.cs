@@ -1,6 +1,4 @@
-using Sandbox;
 using Sandbox.ModelEditor.Nodes;
-using System.IO;
 
 /// <summary>
 /// A component to help deal with props.
@@ -21,6 +19,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Sync] public ModelPhysics ModelPhysics { get; set; }
 	[Sync] public Rigidbody Rigidbody { get; set; }
 	[Sync] public NetDictionary<int, BodyInfo> NetworkedBodies { get; set; } = new();
+
 	public List<FixedJoint> Welds { get; set; } = new();
 	public List<SpringJoint> Ropes { get; set; } = new();
 	public List<LegacyParticleSystem> RopeParticles { get; set; } = new();
@@ -41,9 +40,9 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		Health = Prop?.Health ?? 0f;
 		Velocity = 0f;
 
-		lastPosition = Prop?.WorldPosition ?? WorldPosition;
-
 		RopeParticles = Components.GetAll<LegacyParticleSystem>().ToList();
+
+		lastPosition = Prop?.WorldPosition ?? WorldPosition;
 	}
 
 	[Rpc.Broadcast]
@@ -316,7 +315,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		}
 	}
 
-	[Rpc.Broadcast(NetFlags.Unreliable)]
+	[Rpc.Broadcast( NetFlags.Unreliable )]
 	public void BroadcastExplosion( string path, Vector3 position )
 	{
 		if ( string.IsNullOrEmpty( path ) )
@@ -410,7 +409,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	{
 		RopePoints = new();
 
-		for(int i = 0; i < MathF.Min(tos.Count, fromPoints.Count) && i < toPoints.Count; i++ )
+		for ( int i = 0; i < MathF.Min( tos.Count, fromPoints.Count ) && i < toPoints.Count; i++ )
 		{
 			RopePoints?.Add( (
 				tos[i],
@@ -422,7 +421,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	public void UpdateRopes()
 	{
-		if( !IsProxy )
+		if ( !IsProxy )
 		{
 			List<GameObject> tos = new();
 			List<Vector3> fromPoints = new();
@@ -458,7 +457,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		for ( int i = 0; i < RopeParticles.Count || i < RopePoints.Count; i++ )
 		{
-			if( i >= RopePoints.Count )
+			if ( i >= RopePoints.Count )
 			{
 				ParticlesToRemove.Add( RopeParticles[i] );
 			}
@@ -478,7 +477,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			}
 		}
 
-		foreach( var particle in ParticlesToRemove )
+		foreach ( var particle in ParticlesToRemove )
 		{
 			RopeParticles?.Remove( particle );
 
