@@ -387,6 +387,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		var point1Go = new GameObject();
 		point1Go.SetParent( GameObject );
 		point1Go.LocalPosition = fromPos;
+		point1Go.LocalRotation = Rotation.Identity;
 
 		var point2Go = new GameObject();
 		if( !to.Tags.Contains("map") )
@@ -398,6 +399,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			point2Go.AddComponent<Rigidbody>().MotionEnabled = false;
 		}
 		point2Go.LocalPosition = toPos;
+		point2Go.LocalRotation = Rotation.Identity;
 
 		var springJoint = point1Go.Components.Create<SpringJoint>();
 		springJoint.EnableCollision = collision;
@@ -446,10 +448,10 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 				if ( !GameObject.IsDescendant( rope.GameObject ) )
 					continue;
 
+				tos.Add( rope.Body.Parent );
+				fromPoints.Add( rope.Body.LocalPosition );
 
-				tos.Add( rope.Body );
-				fromPoints.Add( rope.LocalPosition );
-				toPoints.Add( rope.Body.LocalPosition );
+				toPoints.Add( rope.LocalPosition );
 			}
 			SetRopePoints( tos, fromPoints, toPoints );
 		}
@@ -458,7 +460,9 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		while ( RopeParticles.Count < RopePoints.Count )
 		{
-			var particle = Components.Create<LegacyParticleSystem>();
+			var go = new GameObject();
+			go.SetParent(GameObject);
+			var particle = go.Components.Create<LegacyParticleSystem>();
 			particle.Particles = ParticleSystem.Load( "particles/rope.vpcf" );
 			RopeParticles?.Add( particle );
 		}
@@ -480,8 +484,10 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 				if ( !RopePoints[i].to.IsValid() )
 					continue;
 
-				RopeParticles[i].SceneObject.SetControlPoint( 0, WorldTransform.PointToWorld( RopePoints[i].frompoint ) );
 				RopeParticles[i].SceneObject.SetControlPoint( 1, RopePoints[i].to.WorldTransform.PointToWorld( RopePoints[i].toPoint ) );
+
+				RopeParticles[i].LocalPosition = RopePoints[i].frompoint;
+
 			}
 		}
 
