@@ -48,8 +48,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Rpc.Broadcast]
 	public void Damage( float amount )
 	{
-		if ( !Prop.IsValid() ) return;
 		if ( IsProxy ) return;
+		if ( !Prop.IsValid() ) return;
 		if ( Health <= 0f ) return;
 
 		Health -= amount;
@@ -118,7 +118,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			AddForce( 0, force );
 		}
 
-		await GameTask.DelaySeconds( 1f / Scene.FixedUpdateFrequency + 0.05f );
+		await Task.DelaySeconds( 1f / Scene.FixedUpdateFrequency + 0.05f );
 
 		Damage( damage );
 	}
@@ -316,7 +316,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	}
 
 	[Rpc.Broadcast( NetFlags.Unreliable )]
-	public void BroadcastExplosion( string path, Vector3 position )
+	public static void BroadcastExplosion( string path, Vector3 position )
 	{
 		if ( string.IsNullOrEmpty( path ) )
 		{
@@ -390,7 +390,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		point1Go.LocalRotation = Rotation.Identity;
 
 		var point2Go = new GameObject();
-		if( !to.Tags.Contains("map") )
+		if ( !to.Tags.Contains( "map" ) )
 		{
 			point2Go.SetParent( to );
 		}
@@ -461,7 +461,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		while ( RopeParticles.Count < RopePoints.Count )
 		{
 			var go = new GameObject();
-			go.SetParent(GameObject);
+			go.SetParent( GameObject );
 			var particle = go.Components.Create<LegacyParticleSystem>();
 			particle.Particles = ParticleSystem.Load( "particles/rope.vpcf" );
 			RopeParticles?.Add( particle );
