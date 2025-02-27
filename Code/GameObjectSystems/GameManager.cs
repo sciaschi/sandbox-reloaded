@@ -41,7 +41,7 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 
 			if ( !Networking.IsActive )
 			{
-				Networking.CreateLobby( new LobbyConfig { Name = "Sandbox Classic Server" } );
+				Networking.CreateLobby( new LobbyConfig { Name = "Sandbox Classic Server", Privacy = LobbyPrivacy.Public } );
 			}
 		}
 	}
