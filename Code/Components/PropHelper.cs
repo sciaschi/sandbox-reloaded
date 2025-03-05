@@ -484,7 +484,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 				if ( !RopePoints[i].to.IsValid() )
 					continue;
 
-				RopeParticles[i].SceneObject.SetControlPoint( 1, RopePoints[i].to.WorldTransform.PointToWorld( RopePoints[i].toPoint ) );
+				RopeParticles[i].SceneObject?.SetControlPoint( 1, RopePoints[i].to.WorldTransform.PointToWorld( RopePoints[i].toPoint ) );
 
 				RopeParticles[i].LocalPosition = RopePoints[i].frompoint;
 

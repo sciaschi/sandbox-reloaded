@@ -12,6 +12,10 @@ public class Resizer : BaseTool
 		if ( skinnedModelRenderer.IsValid() )
 		{
 			var go = skinnedModelRenderer.GetBoneObject( trace.Bone );
+
+			if ( !go.IsValid() )
+				return false;
+			
 			var size = go.WorldScale;
 			size = size + (0.5f * Time.Delta);
 
@@ -39,10 +43,14 @@ public class Resizer : BaseTool
 		if ( !trace.GameObject.IsValid() )
 			return false;
 
-		var skinnedModelRenderer = trace.GameObject.GetComponent<SkinnedModelRenderer>();
+		var skinnedModelRenderer = trace.GameObject?.GetComponent<SkinnedModelRenderer>();
 		if (skinnedModelRenderer.IsValid())
 		{
 			var go = skinnedModelRenderer.GetBoneObject(trace.Bone);
+
+			if ( !go.IsValid() )
+				return false;
+			
 			var size = go.WorldScale;
 			size = size - (0.5f * Time.Delta);
 
@@ -53,6 +61,10 @@ public class Resizer : BaseTool
 		else
 		{
 			var go = trace.GameObject;
+			
+			if ( !go.IsValid() )
+				return false;
+			
 			var size = go.WorldScale;
 			size = size - (0.5f * Time.Delta);
 

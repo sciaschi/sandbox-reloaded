@@ -39,15 +39,18 @@ public partial class GravGun : BaseWeapon, IPlayerEvent
 
 	PhysicsBody GetBody( GameObject gameObject, int bone )
 	{
+		if ( !gameObject.IsValid() )
+			return null;
+		
 		if ( bone > -1 )
 		{
-			ModelPhysics modelPhysics = gameObject.Components.Get<ModelPhysics>();
-			return modelPhysics.PhysicsGroup.GetBody( bone );
+			ModelPhysics modelPhysics = gameObject.Components.Get<ModelPhysics>()!;
+			return modelPhysics?.PhysicsGroup?.GetBody( bone )!;
 		}
 		else
 		{
-			Rigidbody rigidbody = gameObject.Components.Get<Rigidbody>();
-			return rigidbody.PhysicsBody;
+			Rigidbody rigidbody = gameObject.Components.Get<Rigidbody>()!;
+			return rigidbody?.PhysicsBody!;
 		}
 	}
 
@@ -212,11 +215,11 @@ public partial class GravGun : BaseWeapon, IPlayerEvent
 
 		if ( bodyIndex > -1 && gameObject.Components.TryGet<ModelPhysics>( out var modelPhysics ) )
 		{
-			body = modelPhysics.PhysicsGroup.Bodies.ElementAt( bodyIndex );
+			body = modelPhysics?.PhysicsGroup?.Bodies?.ElementAt( bodyIndex )!;
 		}
 		else if ( gameObject.Components.TryGet<Rigidbody>( out var rigidbody ) )
 		{
-			body = rigidbody.PhysicsBody;
+			body = rigidbody?.PhysicsBody!;
 		}
 
 		if ( !body.IsValid() )
@@ -237,11 +240,11 @@ public partial class GravGun : BaseWeapon, IPlayerEvent
 
 		if ( bodyIndex > -1 && gameObject.Components.TryGet<ModelPhysics>( out var modelPhysics ) )
 		{
-			body = modelPhysics.PhysicsGroup.GetBody( bodyIndex );
+			body = modelPhysics?.PhysicsGroup?.GetBody( bodyIndex )!;
 		}
 		else if ( gameObject.Components.TryGet<Rigidbody>( out var rigidbody ) )
 		{
-			body = rigidbody.PhysicsBody;
+			body = rigidbody?.PhysicsBody!;
 		}
 
 		if ( !body.IsValid() )
