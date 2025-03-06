@@ -14,8 +14,8 @@ Based on the original Sandbox by Facepunch
 ### Programming
 * Asphaltian - Base, Weapons, UI
 * TROLLFACEINREALLIFE - Tools
-* badandbest - Bug fixes & Improvements
-* trende - Entities
+* badandbest - Improvements, Bug fixes
+* trende - Explosive props
 
 ### Localization
 * DiskGG - 🇨🇿
