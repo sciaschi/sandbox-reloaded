@@ -90,7 +90,8 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 	{
 		var player = Components.Get<Player>();
 
-		camera.FieldOfView = Screen.CreateVerticalFieldOfView( Preferences.FieldOfView );
+		camera.FovAxis = CameraComponent.Axis.Vertical;
+		camera.FieldOfView = Screen.CreateVerticalFieldOfView( Preferences.FieldOfView, 9.0f / 16.0f );
 
 		ILocalPlayerEvent.Post( x => x.OnCameraSetup( camera ) );
 		ILocalPlayerEvent.Post( x => x.OnCameraPostSetup( camera ) );

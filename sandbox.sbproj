@@ -8,7 +8,7 @@
   "Resources": "/menu/*\n*.vmdl_c.png\nentity/*.png",
   "PackageReferences": [],
   "EditorReferences": null,
-  "IsWhitelistDisabled": false,
+  "IsStandaloneOnly": false,
   "Metadata": {
     "MaxPlayers": 32,
     "MinPlayers": 1,

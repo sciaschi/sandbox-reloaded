@@ -41,7 +41,7 @@ public partial class GravGun : BaseWeapon, IPlayerEvent
 	{
 		if ( !gameObject.IsValid() )
 			return null;
-		
+
 		if ( bone > -1 )
 		{
 			ModelPhysics modelPhysics = gameObject.Components.Get<ModelPhysics>()!;
@@ -212,10 +212,12 @@ public partial class GravGun : BaseWeapon, IPlayerEvent
 		timeSinceImpulse = 0;
 
 		PhysicsBody body = null;
-
 		if ( bodyIndex > -1 && gameObject.Components.TryGet<ModelPhysics>( out var modelPhysics ) )
 		{
-			body = modelPhysics?.PhysicsGroup?.Bodies?.ElementAt( bodyIndex )!;
+			if ( modelPhysics?.PhysicsGroup?.Bodies?.Count() > bodyIndex )
+			{
+				body = modelPhysics?.PhysicsGroup?.Bodies?.ElementAt( bodyIndex )!;
+			}
 		}
 		else if ( gameObject.Components.TryGet<Rigidbody>( out var rigidbody ) )
 		{
