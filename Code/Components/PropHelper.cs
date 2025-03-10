@@ -60,11 +60,14 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 	public void OnBreak()
 	{
-		var gibs = Prop.CreateGibs();
+		if (!Prop.IsValid())
+			return;
+		
+		var gibs = Prop?.CreateGibs()!;
 
-		if ( gibs.Count > 0 )
+		if ( gibs?.Count > 0 )
 		{
-			foreach ( var gib in gibs )
+			foreach ( var gib in gibs! )
 			{
 				if ( !gib.IsValid() )
 					continue;
@@ -79,7 +82,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			}
 		}
 
-		if ( Prop.Model.TryGetData<ModelExplosionBehavior>( out var data ) )
+		if ( !Prop.Model.TryGetData<ModelExplosionBehavior>( out var data ) )
 		{
 			Explosion( data.Effect, data.Sound, WorldPosition, data.Radius, data.Damage, data.Force );
 		}
@@ -381,8 +384,11 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	{
 		if ( IsProxy )
 			return;
+		
+		if (!to.IsValid())
+			return;
 
-		PropHelper propHelper = to.Components.Get<PropHelper>();
+		PropHelper propHelper = to?.Components?.Get<PropHelper>()!;
 
 		var point1Go = new GameObject();
 		point1Go.SetParent( GameObject );
@@ -401,17 +407,17 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		point2Go.LocalPosition = toPos;
 		point2Go.LocalRotation = Rotation.Identity;
 
-		var springJoint = point1Go.Components.Create<SpringJoint>();
-		springJoint.EnableCollision = collision;
-		springJoint.Body = point2Go;
-		springJoint.Attachment = Joint.AttachmentMode.LocalFrames;
-		springJoint.MinLength = minLength;
-		springJoint.MaxLength = maxLength;
+		var springJoint = point1Go?.Components.Create<SpringJoint>();
+		springJoint!.EnableCollision = collision;
+		springJoint!.Body = point2Go;
+		springJoint!.Attachment = Joint.AttachmentMode.LocalFrames;
+		springJoint!.MinLength = minLength;
+		springJoint!.MaxLength = maxLength;
 
-		Ropes?.Add( springJoint );
-		Joints?.Add( springJoint );
-		propHelper?.Ropes?.Add( springJoint );
-		propHelper?.Joints?.Add( springJoint );
+		Ropes?.Add( springJoint! );
+		Joints?.Add( springJoint! );
+		propHelper?.Ropes?.Add( springJoint! );
+		propHelper?.Joints?.Add( springJoint! );
 	}
 
 	[Rpc.Broadcast]
