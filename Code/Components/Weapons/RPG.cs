@@ -31,10 +31,12 @@ partial class RPG : BaseWeapon
 		// Grenade lob
 	}
 
+	private LoadedPrefab eject = new LoadedPrefab( "weapons/common/effects/eject_9mm.prefab" );
+
 	protected override void ShootEffects()
 	{
 		base.ShootEffects();
 
-		Particles.CreateParticleSystem( "particles/pistol_ejectbrass.vpcf", Attachment( "ejection_point" ) );
+		Particles.CreateParticleSystem( eject.Prefab, Attachment( "ejection_point" ) );
 	}
 }

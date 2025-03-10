@@ -53,16 +53,19 @@ partial class Shotgun : BaseWeapon
 
 	// TODO: Probably should unify these particle methods + make it work for world models
 
+	private LoadedPrefab eject = new LoadedPrefab( "weapons/common/effects/eject_shotgun.prefab" );
 	protected override void ShootEffects()
 	{
 		base.ShootEffects();
 
-		Particles.CreateParticleSystem( "particles/pistol_ejectbrass.vpcf", Attachment( "ejection_point" ) );
+		Particles.CreateParticleSystem( eject.Prefab, Attachment( "ejection_point" ) );
 	}
 
+
+	private LoadedPrefab muzzle = new LoadedPrefab( "weapons/common/effects/muzzle.prefab" );
 	protected virtual void DoubleShootEffects()
 	{
-		Particles.CreateParticleSystem( "particles/pistol_muzzleflash.vpcf", Attachment( "muzzle" ) );
+		Particles.CreateParticleSystem( muzzle.Prefab, Attachment( "muzzle" ) );
 
 		ViewModel?.Renderer?.Set( "fire_double", true );
 	}

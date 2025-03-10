@@ -274,7 +274,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		BroadcastExplosion( sound, position );
 
-		Particles.CreateParticleSystem( particle, new Transform( position, Rotation.Identity ), 10 );
+		LegacyParticles.CreateParticleSystem( particle, new Transform( position, Rotation.Identity ), 10 );
 
 		// Damage, etc
 		var overlaps = Game.ActiveScene.FindInPhysics( new Sphere( position, radius ) );

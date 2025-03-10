@@ -1,0 +1,1 @@
+{"BulletImpact":{"_type":"gameobject","prefab":"weapons/common/effects/impact_metal.prefab"},"BulletDecal":null,"ExtensionDefault":false,"ExtensionTargets":["surfaces/metal.surface","surfaces/metal.sheet.surface"],"__references":[],"__version":0}

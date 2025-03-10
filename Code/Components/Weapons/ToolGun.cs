@@ -62,7 +62,7 @@ public class ToolGun : BaseWeapon
 	[Rpc.Broadcast]
 	void ToolEffects( Vector3 position )
 	{
-		Particles.MakeParticleSystem( "particles/tool_hit.vpcf", new Transform( position ) );
+		LegacyParticles.MakeParticleSystem( "particles/tool_hit.vpcf", new Transform( position ) );
 		Sound.Play( "sounds/balloon_pop_cute.sound", WorldPosition );
 	}
 
