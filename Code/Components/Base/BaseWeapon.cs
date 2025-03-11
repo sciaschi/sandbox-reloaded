@@ -144,19 +144,18 @@ public partial class BaseWeapon : Component
 		ViewModel?.Renderer?.Set( "b_reload", true );
 	}
 
-	private LoadedPrefab muzzle = new LoadedPrefab( "weapons/common/effects/muzzle.prefab" );
 	protected virtual void ShootEffects()
 	{
-		AttachParticleSystem( muzzle.Prefab, "muzzle" );
+		AttachParticleSystem( "particles/pistol_muzzleflash.vpcf", "muzzle" );
 		ViewModel?.Renderer?.Set( "fire", true );
 	}
 
 	[Rpc.Broadcast]
-	public void AttachParticleSystem( GameObject prefab, string attachment, float time = 1, GameObject parent = null )
+	public void AttachParticleSystem( string path, string attachment, float time = 1, GameObject parent = null )
 	{
 		Transform transform = LocalWorldModel?.GetAttachment( attachment ) ?? WorldTransform;
 
-		Particles.MakeParticleSystem( prefab, transform, time, parent );
+		Particles.MakeParticleSystem( path, transform, time, parent );
 	}
 
 	public virtual bool CanReload()

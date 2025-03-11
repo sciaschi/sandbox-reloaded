@@ -26,6 +26,6 @@ public class Remover : BaseTool
 
 		g.Destroy();
 
-		LegacyParticles.MakeParticleSystem( "particles/physgun_freeze.vpcf", g.WorldTransform );
+		Particles.MakeParticleSystem( "particles/physgun_freeze.vpcf", g.WorldTransform );
 	}
 }

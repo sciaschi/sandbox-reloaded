@@ -10,19 +10,10 @@
         {
           "__type": "Sandbox.SceneInformation",
           "__guid": "167dbcbd-27c3-4e89-a409-90a1fa4b7a81",
-          "Author": null,
           "Changes": "",
           "Description": "",
-          "Group": null,
-          "OnComponentDestroy": null,
-          "OnComponentDisabled": null,
-          "OnComponentEnabled": null,
-          "OnComponentFixedUpdate": null,
-          "OnComponentStart": null,
-          "OnComponentUpdate": null,
           "SceneTags": "",
-          "Title": "game",
-          "Version": null
+          "Title": "game"
         }
       ]
     },
@@ -40,25 +31,13 @@
           "EnableCollision": true,
           "MapName": "facepunch.construct23",
           "NoOrigin": true,
-          "OnComponentDestroy": null,
-          "OnComponentDisabled": null,
-          "OnComponentEnabled": null,
-          "OnComponentFixedUpdate": null,
-          "OnComponentStart": null,
-          "OnComponentUpdate": null,
           "OnMapLoaded": null,
           "OnMapUnloaded": null,
           "UseMapFromLaunch": true
         },
         {
           "__type": "MapPlayerSpawner",
-          "__guid": "3966a6fc-2262-4539-b528-4104452cd041",
-          "OnComponentDestroy": null,
-          "OnComponentDisabled": null,
-          "OnComponentEnabled": null,
-          "OnComponentFixedUpdate": null,
-          "OnComponentStart": null,
-          "OnComponentUpdate": null
+          "__guid": "3966a6fc-2262-4539-b528-4104452cd041"
         }
       ],
       "Children": []
