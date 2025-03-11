@@ -10,8 +10,52 @@
         {
           "__type": "Sandbox.SceneInformation",
           "__guid": "d8941553-177e-4738-bb9b-c19e20c07bdc",
+          "Author": null,
+          "Changes": null,
+          "Description": null,
+          "Group": null,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
           "SceneTags": "",
-          "Title": "menu"
+          "Title": "menu",
+          "Version": null
+        }
+      ]
+    },
+    {
+      "__guid": "029f587a-7171-4a70-886d-72d72297e0e0",
+      "Flags": 0,
+      "Name": "Camera",
+      "Tags": "maincamera",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "Sandbox.CameraComponent",
+          "__guid": "ae5f2bad-bb58-472e-8db5-294845f661ee",
+          "BackgroundColor": "0.33333,0.46275,0.52157,1",
+          "ClearFlags": "All",
+          "FieldOfView": 60,
+          "FovAxis": "Horizontal",
+          "IsMainCamera": true,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
+          "Priority": 1,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "TargetEye": "None",
+          "Viewport": "0,0,1,1",
+          "ZFar": 10000,
+          "ZNear": 10
         }
       ]
     },
@@ -25,6 +69,12 @@
           "__type": "Sandbox.ScreenPanel",
           "__guid": "625d9dd5-6d5d-4637-b98b-90e57995dd0a",
           "AutoScreenScale": true,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
           "Opacity": 1,
           "Scale": 1,
           "ScaleStrategy": "FollowDesktopScaling",
@@ -35,7 +85,13 @@
           "__guid": "75e769af-c781-4d91-a846-a71069a34eb2",
           "GameScene": "scenes/game.scene",
           "InGame": false,
-          "MenuScene": "scenes/menu.scene"
+          "MenuScene": "scenes/menu.scene",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
         }
       ]
     }
