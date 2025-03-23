@@ -16,6 +16,7 @@ Based on the original Sandbox by Facepunch
 * TROLLFACEINREALLIFE - Tools
 * badandbest - Improvements, Bug fixes
 * trende - Explosive props
+* kicks - Scene map support
 
 ### Localization
 * DiskGG - 🇨🇿
