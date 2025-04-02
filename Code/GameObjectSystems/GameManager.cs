@@ -1,6 +1,5 @@
 using Sandbox.Citizen;
 using Sandbox.Network;
-using Sandbox.Services;
 
 public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayerEvent, Component.INetworkListener, ISceneStartup
 {
@@ -41,7 +40,7 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 
 			if ( !Networking.IsActive )
 			{
-				Networking.CreateLobby( new LobbyConfig { Name = "Sandbox Classic Server", Privacy = LobbyPrivacy.Public } );
+				Networking.CreateLobby( new LobbyConfig { Name = "Sandbox Classic Server", Privacy = LobbyPrivacy.Public, Hidden = false, MaxPlayers = 32 } );
 			}
 		}
 	}
@@ -80,7 +79,7 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 			player.Inventory = inventory;
 
 		playerGo.NetworkSpawn( channel );
-		
+
 		IPlayerEvent.PostToGameObject( player.GameObject, x => x.OnSpawned() );
 	}
 
