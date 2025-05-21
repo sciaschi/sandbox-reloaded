@@ -7,11 +7,6 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 	{
 	}
 
-	void ISceneStartup.OnHostPreInitialize( SceneFile scene )
-	{
-		Log.Info( $"Sandbox Classic: Loading scene {scene.ResourceName}" );
-	}
-
 	async void ISceneStartup.OnHostInitialize()
 	{
 		// NOTE: See CreateGameModal.razor, line 73 for a related issue
@@ -19,6 +14,19 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 		var currentScene = Scene.Source as SceneFile;
 		if ( currentScene.GetMetadata( "Title" ) == "game" )
 		{
+			if ( !Networking.IsActive )
+			{
+				var lobbyConfig = new LobbyConfig
+				{
+					Name = "Sandbox Classic Server",
+					Privacy = LobbyPrivacy.Public,
+					Hidden = false,
+					MaxPlayers = 32
+				};
+
+				Networking.CreateLobby( lobbyConfig );
+			}
+
 			// If the map is a scene, load it
 			var mapPackage = await Package.FetchAsync( CustomMapInstance.Current.MapName, false );
 			if ( mapPackage == null ) return;
@@ -26,21 +34,18 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 			var primaryAsset = mapPackage.GetMeta<string>( "PrimaryAsset" );
 			if ( string.IsNullOrEmpty( primaryAsset ) ) return;
 
-			var sceneLoadOptions = new SceneLoadOptions { IsAdditive = true };
+			var sceneLoadOptions = new SceneLoadOptions();
 
 			if ( primaryAsset.EndsWith( ".scene" ) )
 			{
 				var sceneFile = mapPackage.GetMeta<SceneFile>( "PrimaryAsset" );
+
 				sceneLoadOptions.SetScene( sceneFile );
 				Scene.Load( sceneLoadOptions );
-			}
 
-			sceneLoadOptions.SetScene( "scenes/engine.scene" );
-			Scene.Load( sceneLoadOptions );
-
-			if ( !Networking.IsActive )
-			{
-				Networking.CreateLobby( new LobbyConfig { Name = "Sandbox Classic Server", Privacy = LobbyPrivacy.Public, Hidden = false, MaxPlayers = 32 } );
+				sceneLoadOptions.SetScene( "scenes/engine.scene" );
+				sceneLoadOptions.IsAdditive = true;
+				Scene.Load( sceneLoadOptions );
 			}
 		}
 	}
@@ -64,7 +69,7 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 		var playerGo = GameObject.Clone( "/prefabs/player.prefab", new CloneConfig { Name = $"Player - {channel.DisplayName}", StartEnabled = true, Transform = startLocation } );
 		var player = playerGo.Components.GetOrCreate<Player>();
 
-		//Make sure all of these exist
+		// Make sure all of these exist
 		var animHelper = playerGo.Components.GetInDescendantsOrSelf<CitizenAnimationHelper>();
 		var controller = playerGo.Components.GetOrCreate<PlayerController>();
 		var inventory = playerGo.Components.GetOrCreate<PlayerInventory>();

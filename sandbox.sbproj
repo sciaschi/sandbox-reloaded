@@ -8,6 +8,9 @@
   "Resources": "/menu/*\n*.vmdl_c.png\nentity/*.png",
   "PackageReferences": [],
   "EditorReferences": null,
+  "Mounts": [
+    "quake"
+  ],
   "IsStandaloneOnly": false,
   "Metadata": {
     "MaxPlayers": 32,
@@ -17,6 +20,7 @@
     "LaunchMode": "Normal",
     "StartupScene": "scenes/menu.scene",
     "MapStartupScene": "scenes/game.scene",
+    "SystemScene": "scenes/engine.scene",
     "ParentPackage": "",
     "DedicatedServerStartupScene": "scenes/game.scene"
   }
