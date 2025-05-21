@@ -12,7 +12,7 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, IPlayer
 		// NOTE: See CreateGameModal.razor, line 73 for a related issue
 
 		var currentScene = Scene.Source as SceneFile;
-		if ( currentScene.GetMetadata( "Title" ) == "game" )
+		if ( currentScene.GetMetadata( "Title" ) != "menu" )
 		{
 			if ( !Networking.IsActive )
 			{
