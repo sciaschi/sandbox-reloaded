@@ -78,10 +78,10 @@
               "BloomLayer": false,
               "AfterUILayer": false
             },
-            "SplineBias": 0,
-            "SplineContinuity": 0,
-            "SplineInterpolation": 0,
-            "SplineTension": 0,
+            "SplineBias": 0.13,
+            "SplineContinuity": 0.42,
+            "SplineInterpolation": 20,
+            "SplineTension": -0.14,
             "StartCap": "None",
             "Texturing": {
               "Texture": "materials/particles/electrical/electrical_arc03b.vtex",
@@ -173,10 +173,10 @@
               "BloomLayer": false,
               "AfterUILayer": false
             },
-            "SplineBias": 0,
-            "SplineContinuity": 0,
-            "SplineInterpolation": 0,
-            "SplineTension": 0,
+            "SplineBias": 0.3,
+            "SplineContinuity": 0.21,
+            "SplineInterpolation": 13,
+            "SplineTension": 0.18,
             "StartCap": "None",
             "Texturing": {
               "Texture": "materials/particles/electrical/electrical_arc03b.vtex",
