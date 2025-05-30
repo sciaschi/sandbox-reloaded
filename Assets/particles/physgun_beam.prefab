@@ -1,0 +1,271 @@
+{
+  "RootObject": {
+    "__guid": "b285a3a9-1f96-4f4a-9d30-52bec9f565c7",
+    "__version": 1,
+    "Flags": 0,
+    "Name": "physgun_beam",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "particles",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "OwnerTransfer": 1,
+    "Components": [],
+    "Children": [
+      {
+        "__guid": "0b75a076-95e9-42ad-9058-1372f6fdd812",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Line1",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.LineRenderer",
+            "__guid": "87131f6f-9cd0-41b6-8911-7a830aebc4cb",
+            "__enabled": true,
+            "Additive": true,
+            "CastShadows": true,
+            "Color": {
+              "blend": "Linear",
+              "color": [
+                {
+                  "t": 0,
+                  "c": "1,1,1,1"
+                },
+                {
+                  "t": 1,
+                  "c": "0,0.78039,1,1"
+                }
+              ],
+              "alpha": [
+                {
+                  "t": 0,
+                  "a": 1
+                },
+                {
+                  "t": 1,
+                  "a": 1
+                }
+              ]
+            },
+            "DepthFeather": 0,
+            "EndCap": "None",
+            "Face": "Camera",
+            "FogStrength": 1,
+            "Lighting": true,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Opaque": false,
+            "Points": [],
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "SplineBias": 0,
+            "SplineContinuity": 0,
+            "SplineInterpolation": 0,
+            "SplineTension": 0,
+            "StartCap": "None",
+            "Texturing": {
+              "Texture": "materials/particles/electrical/electrical_arc03b.vtex",
+              "WorldSpace": true,
+              "UnitsPerTexture": 256,
+              "Scale": 1,
+              "Offset": 0,
+              "Scroll": 0.1
+            },
+            "UseVectorPoints": true,
+            "VectorPoints": [
+              "172.6999,0,0",
+              "0,0,0"
+            ],
+            "Width": [
+              {
+                "x": 0.5,
+                "y": 5,
+                "in": 0,
+                "out": 0,
+                "mode": "Mirrored"
+              }
+            ],
+            "Wireframe": false
+          }
+        ],
+        "Children": []
+      },
+      {
+        "__guid": "b965f70c-880d-4bb5-8d9e-ea4e005e8699",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "Line2",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.LineRenderer",
+            "__guid": "000c8a84-5b20-42e6-a8fd-c1fac2ae9a3b",
+            "__enabled": true,
+            "Additive": true,
+            "CastShadows": true,
+            "Color": {
+              "blend": "Linear",
+              "color": [
+                {
+                  "t": 0,
+                  "c": "1,1,1,1"
+                },
+                {
+                  "t": 1,
+                  "c": "0,0.78039,1,1"
+                }
+              ],
+              "alpha": [
+                {
+                  "t": 0,
+                  "a": 1
+                },
+                {
+                  "t": 1,
+                  "a": 1
+                }
+              ]
+            },
+            "DepthFeather": 0,
+            "EndCap": "None",
+            "Face": "Camera",
+            "FogStrength": 1,
+            "Lighting": true,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Opaque": false,
+            "Points": [],
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "SplineBias": 0,
+            "SplineContinuity": 0,
+            "SplineInterpolation": 0,
+            "SplineTension": 0,
+            "StartCap": "None",
+            "Texturing": {
+              "Texture": "materials/particles/electrical/electrical_arc03b.vtex",
+              "WorldSpace": true,
+              "UnitsPerTexture": 256,
+              "Scale": 1,
+              "Offset": 0,
+              "Scroll": 1.367
+            },
+            "UseVectorPoints": true,
+            "VectorPoints": [
+              "174.4001,0,0",
+              "0,0,0"
+            ],
+            "Width": [
+              {
+                "x": 0.5,
+                "y": 5,
+                "in": 0,
+                "out": 0,
+                "mode": "Mirrored"
+              }
+            ],
+            "Wireframe": false
+          }
+        ],
+        "Children": []
+      },
+      {
+        "__guid": "8f4caeaf-cb37-4467-8f01-3006d0a550cd",
+        "__version": 1,
+        "Flags": 0,
+        "Name": "BlueLight",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "light_point,light",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkInterpolation": true,
+        "NetworkOrphaned": 0,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.PointLight",
+            "__guid": "10088f01-b947-4fbc-8319-06c4118239fb",
+            "__enabled": true,
+            "Attenuation": 1,
+            "FogMode": "Enabled",
+            "FogStrength": 1,
+            "LightColor": "0.36225,0.79034,0.91628,1",
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Radius": 152.0996,
+            "Shadows": true
+          }
+        ],
+        "Children": []
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [],
+  "__version": 2
+}
