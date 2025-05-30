@@ -81,7 +81,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		if ( Prop.Model.TryGetData<ModelExplosionBehavior>( out var data ) )
 		{
-			Explosion( data.Effect, data.Sound, WorldPosition, data.Radius, data.Damage, data.Force );
+			// R.I.P data.Effect
+			Explosion( "particles/medium_explosion.prefab", data.Sound, WorldPosition, data.Radius, data.Damage, data.Force );
 		}
 
 		Prop.Model = null; // Prevents prop from spawning more gibs.

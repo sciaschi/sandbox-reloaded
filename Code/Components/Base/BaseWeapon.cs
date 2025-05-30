@@ -146,7 +146,7 @@ public partial class BaseWeapon : Component
 
 	protected virtual void ShootEffects()
 	{
-		AttachParticleSystem( "particles/pistol_muzzleflash.vpcf", "muzzle" );
+		AttachParticleSystem( "particles/muzzle.prefab", "muzzle" );
 		ViewModel?.Renderer?.Set( "fire", true );
 	}
 
