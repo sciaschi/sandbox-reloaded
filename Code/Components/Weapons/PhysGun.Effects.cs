@@ -1,22 +1,27 @@
 ﻿public partial class PhysGun
 {
-	LegacyParticleSystem beam;
-	LegacyParticleSystem endNoHit;
+	GameObject beam;
+	GameObject endNoHit;
 
 	GameObject lastGrabbedObject;
+
+	
+	// Horrible workaround since particles aren't an all-in-one machine anymore
+	private LineRenderer line1 => beam.GetComponentsInChildren<LineRenderer>().FirstOrDefault( x => x.GameObject.Name == "Line1" );
+	private LineRenderer line2 => beam.GetComponentsInChildren<LineRenderer>().FirstOrDefault( x => x.GameObject.Name == "Line2" );
 
 	[Rpc.Broadcast]
 	protected virtual void KillEffects()
 	{
 		if ( beam.IsValid() )
 		{
-			beam?.GameObject.Destroy();
+			beam?.Destroy();
 			beam = null;
 		}
 
 		if ( endNoHit.IsValid() )
 		{
-			endNoHit?.GameObject?.Destroy();
+			endNoHit?.Destroy();
 			endNoHit = null;
 		}
 
@@ -77,6 +82,8 @@
 		{
 			beam.WorldPosition = Attachment( "muzzle" ).Position;
 			beam.WorldRotation = Attachment( "muzzle" ).Rotation;
+			line1.VectorPoints[0] = beam.WorldPosition;
+			line2.VectorPoints[0] = beam.WorldPosition;
 		}
 
 		if ( GrabbedObject.IsValid() && !GrabbedObject.Tags.Contains( "world" ) && HeldBody.IsValid() )
@@ -88,20 +95,22 @@
 				var physBody = physGroup.GetBody( GrabbedBone );
 				if ( physBody != null )
 				{
-					beam?.SceneObject.SetControlPoint( 1, physBody.Transform.PointToWorld( GrabbedPos ) );
+					line1.VectorPoints[1] = physBody.Transform.PointToWorld( GrabbedPos );
+					line2.VectorPoints[1] = physBody.Transform.PointToWorld( GrabbedPos );
 				}
 			}
 			else
 			{
 				if ( !HeldBody.IsValid() )
 					return;
-
-				beam?.SceneObject.SetControlPoint( 1, HeldBody.Transform.PointToWorld( GrabbedPos ) );
+				
+				line1.VectorPoints[1] = HeldBody.Transform.PointToWorld( GrabbedPos );
+				line2.VectorPoints[1] = HeldBody.Transform.PointToWorld( GrabbedPos );
 			}
 
 			lastBeamPos = HeldBody.Position + HeldBody.Rotation * GrabbedPos;
 
-			endNoHit?.GameObject.Destroy();
+			endNoHit?.Destroy();
 			endNoHit = null;
 
 			if ( GrabbedObject.GetComponent<ModelRenderer>().IsValid() )
@@ -130,19 +139,22 @@
 			Vector3.Lerp( lastBeamPos, tr.EndPosition, Time.Delta * 10 );
 
 			if ( beam.IsValid() )
-				beam?.SceneObject.SetControlPoint( 1, lastBeamPos );
+			{
+				line1.VectorPoints[1] = lastBeamPos;
+				line2.VectorPoints[1] = lastBeamPos;
+			}
 
-			endNoHit ??= Particles.MakeParticleSystem( "particles/physgun_end_nohit.vpcf", new Transform( lastBeamPos ), 0 );
-			endNoHit.SceneObject.SetControlPoint( 0, lastBeamPos );
-			endNoHit.WorldPosition = lastBeamPos;
+			//endNoHit ??= Particles.MakeParticleSystem( "particles/physgun_end_nohit.prefab", new Transform( lastBeamPos ), 0 );
+			//endNoHit.SceneObject.SetControlPoint( 0, lastBeamPos );
+			//endNoHit.WorldPosition = lastBeamPos;
 		}
 	}
 
-	private LegacyParticleSystem CreateBeam( Vector3 endPos ) =>
-		Particles.MakeParticleSystem( "particles/physgun_beam.vpcf", new Transform( endPos ), 0 );
+	private GameObject CreateBeam( Vector3 endPos ) =>
+		Particles.MakeParticleSystem( "particles/physgun_beam.prefab", new Transform( endPos ), 0 );
 
 	private void FreezeEffects() =>
-		Particles.MakeParticleSystem( "particles/physgun_freeze.vpcf", new Transform( lastBeamPos ), 4 );
+		Particles.MakeParticleSystem( "particles/physgun_freeze.prefab", new Transform( lastBeamPos ), 4 );
 
 	protected override void OnDestroy()
 	{
