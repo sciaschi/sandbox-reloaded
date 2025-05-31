@@ -144,9 +144,8 @@
 				line2.VectorPoints[1] = lastBeamPos;
 			}
 
-			//endNoHit ??= Particles.MakeParticleSystem( "particles/physgun_end_nohit.prefab", new Transform( lastBeamPos ), 0 );
-			//endNoHit.SceneObject.SetControlPoint( 0, lastBeamPos );
-			//endNoHit.WorldPosition = lastBeamPos;
+			endNoHit ??= Particles.MakeParticleSystem( "particles/physgun_end_nohit.prefab", new Transform( lastBeamPos ), 0 );
+			endNoHit.WorldPosition = lastBeamPos;
 		}
 	}
 

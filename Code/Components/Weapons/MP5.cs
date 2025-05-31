@@ -1,7 +1,6 @@
 ﻿[Spawnable, Library( "weapon_mp5", Title = "MP5" )]
 partial class MP5 : BaseWeapon
 {
-	protected ParticleSystem EjectBrass => ParticleSystem.Load( "models/weapons/sbox_ammo/9mm_bullet/9mm_ejectbrass.vpcf" );
 
 	public override void AttackPrimary()
 	{
@@ -53,6 +52,6 @@ partial class MP5 : BaseWeapon
 	{
 		base.ShootEffects();
 
-		AttachParticleSystem( EjectBrass.Name, "eject" );
+		AttachParticleSystem( "particles/eject_9mm.prefab", "eject" );
 	}
 }
