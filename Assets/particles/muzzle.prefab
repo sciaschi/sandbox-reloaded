@@ -91,7 +91,7 @@
             "ApplyRotation": false,
             "ApplyShape": true,
             "Bounce": 0.01,
-            "Brightness": 8,
+            "Brightness": 37.699997,
             "Bumpiness": 0.2,
             "Collision": false,
             "CollisionIgnore": null,
@@ -456,8 +456,8 @@
                         "mode": "Mirrored"
                       },
                       {
-                        "x": 0.31456953,
-                        "y": 0.8257575,
+                        "x": 0.35612452,
+                        "y": 0,
                         "in": 0,
                         "out": 0,
                         "mode": "Mirrored"
@@ -490,7 +490,7 @@
                       },
                       {
                         "x": 1,
-                        "y": 0.13636364,
+                        "y": 0.6401515,
                         "in": 3.0508475,
                         "out": -3.0508475,
                         "mode": "Mirrored"
@@ -564,7 +564,7 @@
                       "mode": "Mirrored"
                     }
                   ],
-                  "Constants": "0.02,0.05,0,0"
+                  "Constants": "0.05,0.07,0,0"
                 },
                 "MaxParticles": 5000,
                 "OnComponentDestroy": null,
