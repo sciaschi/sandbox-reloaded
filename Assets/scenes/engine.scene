@@ -100,7 +100,7 @@
           "ExposureMethod": "RGB",
           "MaximumExposure": 3,
           "MinimumExposure": 1,
-          "Mode": "HableFilmic",
+          "Mode": "Linear",
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,

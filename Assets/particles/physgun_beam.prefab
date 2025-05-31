@@ -22,14 +22,24 @@
         "Alpha": {
           "Type": "Range",
           "Evaluation": "Frame",
-          "CurveA": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
-          "CurveB": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
+          "CurveA": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
+          "CurveB": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
           "Constants": "0.08,1,0,0"
         },
         "ApplyAlpha": true,
@@ -98,14 +108,24 @@
         "Lifetime": {
           "Type": "Range",
           "Evaluation": "Frame",
-          "CurveA": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
-          "CurveB": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
+          "CurveA": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
+          "CurveB": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
           "Constants": "0.04,0.1,0,0"
         },
         "MaxParticles": 1000,
@@ -130,40 +150,70 @@
         "Roll": {
           "Type": "Range",
           "Evaluation": "Frame",
-          "CurveA": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
-          "CurveB": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
+          "CurveA": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
+          "CurveB": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
           "Constants": "0,360,0,0"
         },
         "Scale": {
           "Type": "Range",
           "Evaluation": "Frame",
-          "CurveA": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
-          "CurveB": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
+          "CurveA": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
+          "CurveB": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
           "Constants": "4,16,0,0"
         },
         "SequenceId": {
           "Type": "Range",
           "Evaluation": "Frame",
-          "CurveA": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
-          "CurveB": {
-            "rangex": "0,0",
-            "rangey": "0,0"
-          },
+          "CurveA": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
+          "CurveB": [
+            {
+              "x": 0.5,
+              "y": 0.5,
+              "in": 0,
+              "out": 0,
+              "mode": "Mirrored"
+            }
+          ],
           "Constants": "0,4,0,0"
         },
         "SequenceSpeed": 1,
@@ -333,7 +383,7 @@
             "__type": "Sandbox.LineRendererLight",
             "__guid": "ad3b8675-ddbd-431b-ab35-3ee20936ba36",
             "__enabled": true,
-            "Brightness": 2,
+            "Brightness": 1.5,
             "OnComponentDestroy": null,
             "OnComponentDisabled": null,
             "OnComponentEnabled": null,
