@@ -60,6 +60,8 @@ MainMenuPanel {
 
 
 .gamemainmenu .navigator-canvas {
+    background-image: url( "menu/Boxes.mp4" );
+    background-size: cover;
     height: 100%;
     flex-grow: 1;
     flex-shrink: 0;
