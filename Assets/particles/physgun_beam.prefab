@@ -361,7 +361,7 @@
               "UnitsPerTexture": 256,
               "Scale": 1,
               "Offset": 0,
-              "Scroll": 1
+              "Scroll": -1
             },
             "UseVectorPoints": true,
             "VectorPoints": [
@@ -468,7 +468,7 @@
               "UnitsPerTexture": 256,
               "Scale": 1,
               "Offset": 0,
-              "Scroll": 1.367
+              "Scroll": -1.367
             },
             "UseVectorPoints": true,
             "VectorPoints": [
