@@ -5,12 +5,6 @@ using Sandbox.ModelEditor.Nodes;
 /// </summary>
 public sealed class PropHelper : Component, Component.ICollisionListener
 {
-	public struct BodyInfo
-	{
-		public PhysicsBodyType Type { get; set; }
-		public Transform Transform { get; set; }
-	}
-
 	[Property, Sync] public float Health { get; set; } = 1f;
 	[Property, Sync] public Vector3 Velocity { get; set; } = 0f;
 	[Property, Sync] public bool Invincible { get; set; } = false;
@@ -18,13 +12,11 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Sync] public Prop Prop { get; set; }
 	[Sync] public ModelPhysics ModelPhysics { get; set; }
 	[Sync] public Rigidbody Rigidbody { get; set; }
-	[Sync] public NetDictionary<int, BodyInfo> NetworkedBodies { get; set; } = new();
 
-	public List<FixedJoint> Welds { get; set; } = new();
-	public List<SpringJoint> Ropes { get; set; } = new();
-	public List<LegacyParticleSystem> RopeParticles { get; set; } = new();
-	public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = new();
-	public List<Joint> Joints { get; set; } = new();
+	public List<FixedJoint> Welds { get; set; } = [];
+	public List<SpringJoint> Ropes { get; set; } = [];
+	public List<(GameObject to, Vector3 toPoint, Vector3 frompoint)> RopePoints { get; set; } = [];
+	public List<Joint> Joints { get; set; } = [];
 
 	private Vector3 lastPosition = Vector3.Zero;
 
@@ -39,8 +31,6 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		Health = Prop?.Health ?? 0f;
 		Velocity = 0f;
-
-		RopeParticles = Components.GetAll<LegacyParticleSystem>().ToList();
 
 		lastPosition = Prop?.WorldPosition ?? WorldPosition;
 	}
@@ -81,7 +71,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 
 		if ( Prop.Model.TryGetData<ModelExplosionBehavior>( out var data ) )
 		{
-			// R.I.P data.Effect
+			// Rest in peace data.Effect
 			Explosion( "particles/medium_explosion.prefab", data.Sound, WorldPosition, data.Radius, data.Damage, data.Force );
 		}
 
@@ -92,7 +82,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	{
 		if ( IsProxy ) return;
 
-		var body = ModelPhysics?.PhysicsGroup?.GetBody( bodyIndex );
+		var body = ModelPhysics?.PhysicsGroup.GetBody( bodyIndex );
 		if ( body.IsValid() )
 		{
 			body.ApplyForce( force );
@@ -119,7 +109,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 			AddForce( 0, force );
 		}
 
-		await Task.DelaySeconds( 1f / Scene.FixedUpdateFrequency + 0.05f );
+		await Task.DelaySeconds( 1f / ProjectSettings.Physics.FixedUpdateFrequency + 0.05f );
 
 		Damage( damage );
 	}
@@ -141,71 +131,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 		if ( Prop.IsValid() )
 		{
 			Velocity = (Prop.WorldPosition - lastPosition) / Time.Delta;
-
 			lastPosition = Prop.WorldPosition;
 		}
-
-		UpdateNetworkedBodies();
-	}
-
-	protected override void OnUpdate()
-	{
-		UpdateRopes();
-	}
-
-	private void UpdateNetworkedBodies()
-	{
-		if ( !ModelPhysics.IsValid() )
-		{
-			ModelPhysics = GetComponent<ModelPhysics>();
-			Rigidbody = GetComponent<Rigidbody>();
-
-			return;
-		}
-
-		if ( !Network.IsOwner )
-		{
-			var rootBody = FindRootBody();
-
-			foreach ( var (groupId, info) in NetworkedBodies )
-			{
-				var group = ModelPhysics.PhysicsGroup.GetBody( groupId );
-				if ( !group.IsValid() ) continue;
-
-				group.Transform = info.Transform;
-				group.BodyType = info.Type;
-			}
-
-			if ( rootBody.IsValid() )
-				rootBody.Transform = ModelPhysics.Renderer.GameObject.WorldTransform;
-
-			return;
-		}
-
-		foreach ( var body in ModelPhysics.PhysicsGroup.Bodies )
-		{
-			if ( body.GroupIndex == 0 )
-				continue;
-
-			var tx = body.GetLerpedTransform( Time.Now );
-			NetworkedBodies[body.GroupIndex] = new BodyInfo
-			{
-				Type = body.BodyType,
-				Transform = tx
-			};
-		}
-	}
-
-	private PhysicsBody FindRootBody()
-	{
-		var body = ModelPhysics.PhysicsGroup.Bodies.FirstOrDefault();
-		if ( body == null )
-			return null;
-
-		while ( body.Parent.IsValid() )
-			body = body.Parent;
-
-		return body;
 	}
 
 	private ModelPropData GetModelPropData()
@@ -418,7 +345,7 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 	[Rpc.Broadcast]
 	public void SetRopePoints( List<GameObject> tos, List<Vector3> fromPoints, List<Vector3> toPoints )
 	{
-		RopePoints = new();
+		RopePoints = [];
 
 		for ( int i = 0; i < MathF.Min( tos.Count, fromPoints.Count ) && i < toPoints.Count; i++ )
 		{
@@ -427,78 +354,8 @@ public sealed class PropHelper : Component, Component.ICollisionListener
 				fromPoints[i],
 				toPoints[i]
 			) );
-		};
-	}
-
-	public void UpdateRopes()
-	{
-		if ( !IsProxy )
-		{
-			List<GameObject> tos = new();
-			List<Vector3> fromPoints = new();
-			List<Vector3> toPoints = new();
-
-			foreach ( var rope in Ropes )
-			{
-				if ( !rope.Body.IsValid() )
-					continue;
-
-				if ( !rope.GameObject.IsValid() )
-					continue;
-
-				if ( !GameObject.IsDescendant( rope.GameObject ) )
-					continue;
-
-				tos.Add( rope.Body.Parent );
-				fromPoints.Add( rope.Body.LocalPosition );
-
-				toPoints.Add( rope.LocalPosition );
-			}
-			SetRopePoints( tos, fromPoints, toPoints );
 		}
-
-		List<LegacyParticleSystem> ParticlesToRemove = new();
-
-		while ( RopeParticles.Count < RopePoints.Count )
-		{
-			var go = new GameObject();
-			go.SetParent( GameObject );
-			var particle = go.Components.Create<LegacyParticleSystem>();
-			particle.Particles = ParticleSystem.Load( "particles/rope.vpcf" );
-			RopeParticles?.Add( particle );
-		}
-
-		for ( int i = 0; i < RopeParticles.Count || i < RopePoints.Count; i++ )
-		{
-			if ( i >= RopePoints.Count )
-			{
-				ParticlesToRemove.Add( RopeParticles[i] );
-			}
-			else
-			{
-				if ( RopeParticles.Count < i )
-					continue;
-
-				if ( !RopeParticles[i].IsValid() )
-					continue;
-
-				if ( !RopePoints[i].to.IsValid() )
-					continue;
-
-				RopeParticles[i].SceneObject?.SetControlPoint( 1, RopePoints[i].to.WorldTransform.PointToWorld( RopePoints[i].toPoint ) );
-
-				RopeParticles[i].LocalPosition = RopePoints[i].frompoint;
-
-			}
-		}
-
-		foreach ( var particle in ParticlesToRemove )
-		{
-			RopeParticles?.Remove( particle );
-
-			particle?.Destroy();
-		}
-
+		;
 	}
 
 	[Rpc.Broadcast]
