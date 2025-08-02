@@ -1,20 +1,5 @@
-using System.Threading;
-
 public partial class BaseWeapon
 {
-	/// <summary>
-	/// Should we consume 1 bullet per reload instead of filling the clip?
-	/// </summary>
-	[Property, Feature( "Ammo" )]
-	public bool IncrementalReloading { get; set; } = false;
-
-	/// <summary>
-	/// Can we cancel reloads?
-	/// </summary>
-	[Property, Feature( "Ammo" )]
-	public bool CanCancelReload { get; set; } = true;
-
-	private CancellationTokenSource reloadToken;
 	private bool isReloading;
 
 	public bool CanReload()
@@ -30,34 +15,16 @@ public partial class BaseWeapon
 
 	public bool IsReloading() => isReloading;
 
-	public virtual void CancelReload()
-	{
-		if ( reloadToken?.IsCancellationRequested == false )
-		{
-			reloadToken?.Cancel();
-			isReloading = false;
-		}
-	}
-
 	public virtual async void OnReloadStart()
 	{
 		if ( !CanReload() )
 			return;
 
-		CancelReload();
+		if ( isReloading )
+			return;
 
-		try
-		{
-			reloadToken = new CancellationTokenSource();
-			isReloading = true;
-
-			await ReloadAsync( reloadToken.Token );
-		}
-		finally
-		{
-			reloadToken?.Dispose();
-			reloadToken = null;
-		}
+		isReloading = true;
+		await ReloadAsync();
 	}
 
 	[Rpc.Broadcast]
@@ -71,18 +38,21 @@ public partial class BaseWeapon
 		Owner.Controller.Renderer.Set( "b_reload", true );
 	}
 
-	protected virtual async Task ReloadAsync( CancellationToken ct )
+	protected virtual async Task ReloadAsync()
 	{
 		try
 		{
 			IWeaponEvent.PostToGameObject( ViewModel, x => x.OnReloadStart() );
 
 			BroadcastReload();
+
+			await Task.Delay( (int)(ReloadTime * 1000) );
 		}
 		finally
 		{
-			reloadToken?.Cancel();
 			isReloading = false;
+
+			IWeaponEvent.PostToGameObject( ViewModel, x => x.OnReloadFinish() );
 		}
 	}
 }

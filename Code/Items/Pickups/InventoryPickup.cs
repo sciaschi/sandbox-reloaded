@@ -18,7 +18,6 @@ public sealed class InventoryPickup : BasePickup
 			if ( inventory.Pickup( prefab ) )
 			{
 				consumed = true;
-				player.PlayerData.AddStat( $"pickup.inventory.{prefab.Name}" );
 			}
 		}
 

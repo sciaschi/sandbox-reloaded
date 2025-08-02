@@ -18,10 +18,7 @@ public class Pistol : BaseBulletWeapon
 	public void ShootBullet( Player player, float fireRate )
 	{
 		if ( !CanShoot() )
-		{
-			TryAutoReload();
 			return;
-		}
 
 		AddShootDelay( fireRate );
 
@@ -39,13 +36,6 @@ public class Pistol : BaseBulletWeapon
 		ShootEffects( tr.EndPosition, tr.Hit, tr.Normal, tr.GameObject, tr.Surface );
 		TraceAttack( TraceAttackInfo.From( tr, Damage ) );
 		TimeSinceShoot = 0;
-
-		player.Controller.EyeAngles += new Angles( Random.Shared.Float( -0.2f, -0.5f ), Random.Shared.Float( -1, 1 ) * 0.4f, 0 );
-
-		if ( !player.Controller.ThirdPerson && player.IsLocalPlayer )
-		{
-			_ = new Sandbox.CameraNoise.Recoil( 1f, 0.3f );
-		}
 	}
 
 	// returns 0 for no aim spread, 1 for full aim cone

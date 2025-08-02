@@ -30,10 +30,7 @@ public class MP5 : BaseBulletWeapon
 	public void ShootBullet( Player player )
 	{
 		if ( !CanShoot() )
-		{
-			TryAutoReload();
 			return;
-		}
 
 		AddShootDelay( TimeBetweenShots );
 
@@ -54,13 +51,6 @@ public class MP5 : BaseBulletWeapon
 		ShootEffects( tr.EndPosition, tr.Hit, tr.Normal, tr.GameObject, tr.Surface );
 		TraceAttack( TraceAttackInfo.From( tr, Damage ) );
 		TimeSinceShoot = 0;
-
-		player.Controller.EyeAngles += new Angles( Random.Shared.Float( -0.1f, -0.3f ), Random.Shared.Float( -0.1f, 0.1f ), 0 );
-
-		if ( !player.Controller.ThirdPerson && player.IsLocalPlayer )
-		{
-			new Sandbox.CameraNoise.Recoil( 1.0f, 1 );
-		}
 	}
 
 	// returns 0 for no aim spread, 1 for full aim cone
