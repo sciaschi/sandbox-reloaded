@@ -142,12 +142,6 @@ public sealed partial class GameManager( Scene scene ) : GameObjectSystem<GameMa
 		return spawnPointFurthestAway.Transform.World;
 	}
 
-	[Rpc.Broadcast]
-	private static void SendMessage( string msg )
-	{
-		Log.Info( msg );
-	}
-
 	/// <summary>
 	/// Called on the host when a played is killed
 	/// </summary>
@@ -176,15 +170,37 @@ public sealed partial class GameManager( Scene scene ) : GameObjectSystem<GameMa
 
 		player.PlayerData.Deaths++;
 
-		// Scene.RunEvent<Feed>( x => x.NotifyDeath( player.PlayerData, attackerData, w?.DisplayIcon, dmg.Tags ) );
+		string attackerName = attackerData.IsValid() ? attackerData.DisplayName : dmg.Attacker?.Name ?? "";
+		string weaponName = weapon.IsValid() ? weapon.Name : "";
+		long attackerSteamId = attackerData.IsValid() ? attackerData.SteamId : 0;
 
-		string attackerName = attackerData.IsValid() ? attackerData.DisplayName : dmg.Attacker?.Name;
 		if ( string.IsNullOrEmpty( attackerName ) )
-			SendMessage( $"{player.DisplayName} died (tags: {dmg.Tags})" );
-		else if ( weapon.IsValid() )
-			SendMessage( $"{attackerName} killed {(isSuicide ? "self" : player.DisplayName)} with {weapon.Name} (tags: {dmg.Tags})" );
+		{
+			// Player died without a clear attacker (environmental, etc.)
+			OnKilledMessage( 0, "", player.PlayerData.SteamId, player.DisplayName, "died" );
+		}
 		else
-			SendMessage( $"{attackerName} killed {(isSuicide ? "self" : player.DisplayName)} (tags: {dmg.Tags})" );
+		{
+			// Normal kill
+			OnKilledMessage( attackerSteamId, attackerName, player.PlayerData.SteamId, player.DisplayName, weaponName );
+		}
+
+		// Log to console (only on host to avoid duplicates)
+		if ( string.IsNullOrEmpty( attackerName ) )
+			Log.Info( $"{player.DisplayName} died (tags: {dmg.Tags})" );
+		else if ( weapon.IsValid() )
+			Log.Info( $"{attackerName} killed {(isSuicide ? "self" : player.DisplayName)} with {weapon.Name} (tags: {dmg.Tags})" );
+		else
+			Log.Info( $"{attackerName} killed {(isSuicide ? "self" : player.DisplayName)} (tags: {dmg.Tags})" );
+	}
+
+	/// <summary>
+	/// Called clientside from OnDeath on the server to add kill messages to the killfeed.
+	/// </summary>
+	[Rpc.Broadcast]
+	public void OnKilledMessage( long leftid, string left, long rightid, string right, string method )
+	{
+		KillFeed.Current?.AddEntry( leftid, left, rightid, right, method );
 	}
 
 	[ConCmd( "spawn", ConVarFlags.Server )]

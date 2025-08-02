@@ -340,6 +340,35 @@
             }
           ],
           "Children": []
+        },
+        {
+          "__guid": "0d899cc1-d243-453d-a95e-8452209bb451",
+          "__version": 1,
+          "Flags": 0,
+          "Name": "Kill Feed",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkInterpolation": true,
+          "NetworkOrphaned": 0,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "KillFeed",
+              "__guid": "bc148777-c250-489e-90d4-f5e75cc1d82d",
+              "__enabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
         }
       ]
     }

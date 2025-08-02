@@ -4,7 +4,7 @@
 /// <remarks>
 /// Create damage info, inflicted from an object
 /// </remarks>
-public sealed class DeathmatchDamageInfo( float damage, GameObject attacker, GameObject weapon = default ) : DamageInfo( damage, attacker, weapon )
+public sealed class DeathmatchDamageInfo( float damage, GameObject attacker = default, GameObject weapon = default ) : DamageInfo( damage, attacker, weapon )
 {
 	/// <summary>
 	/// The player that caused this
