@@ -50,7 +50,7 @@ public sealed partial class Player
 			return;
 		}
 
-		var player = Player.FindForConnection( source );
+		var player = FindForConnection( source );
 		if ( !player.IsValid() )
 			return;
 
@@ -58,7 +58,7 @@ public sealed partial class Player
 		if ( !inventory.IsValid() )
 			return;
 
-		//inventory.GiveAll();
+		// inventory.GiveAll();
 	}
 
 	[ConCmd( "god", ConVarFlags.Server, Help = "Toggle invulnerability" )]

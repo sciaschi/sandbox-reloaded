@@ -131,12 +131,6 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 		}
 	}
 
-	[Rpc.Owner( NetFlags.HostOnly )]
-	private void Flatline()
-	{
-		Sound.Play( "audio/sounds/flatline.sound" );
-	}
-
 	private void Ghost()
 	{
 		CreateRagdollAndGhost();
@@ -147,14 +141,6 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 	/// </summary>
 	void Kill( in DeathmatchDamageInfo d )
 	{
-		//
-		// Play the flatline sound on the owner
-		//
-		if ( IsLocalPlayer )
-		{
-			Flatline();
-		}
-
 		//
 		// Let everyone know about the death
 		//
@@ -195,11 +181,9 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 			OnControl();
 	}
 
-	RealTimeSince timeSinceJumpPressed;
-
 	void OnControl()
 	{
-		Scene.Get<Inventory>()?.HandleInputOpen();
+		// Scene.Get<Inventory>()?.HandleInputOpen();
 
 		if ( Input.Pressed( "die" ) )
 		{
@@ -214,7 +198,7 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 
 		GetComponent<PlayerInventory>()?.OnControl();
 
-		Scene.Get<Inventory>()?.HandleInput();
+		// Scene.Get<Inventory>()?.HandleInput();
 	}
 
 	public void OnDamage( in DamageInfo d )
@@ -264,12 +248,12 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 		camera.WorldRotation = camera.WorldRotation.Angles().WithPitch( newPitch );
 	}
 
-	public T GetWeapon<T>() where T : BaseCarryable
+	public T GetWeapon<T>() where T : BaseCarriable
 	{
 		return GetComponent<PlayerInventory>().GetWeapon<T>();
 	}
 
-	public void SwitchWeapon<T>() where T : BaseCarryable
+	public void SwitchWeapon<T>() where T : BaseCarriable
 	{
 		var weapon = GetWeapon<T>();
 		if ( weapon == null ) return;

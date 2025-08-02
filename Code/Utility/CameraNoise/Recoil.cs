@@ -9,7 +9,7 @@ class Recoil : BaseCameraNoise
 {
 	public Recoil( float amount, float speed = 1 )
 	{
-		new RollShake() { Size = 0.5f * amount * GamePreferences.Screenshake, Waves = 3 * speed };
+		_ = new RollShake() { Size = 0.5f * amount * GamePreferences.Screenshake, Waves = 3 * speed };
 	}
 
 	public override void ModifyCamera( CameraComponent cc )

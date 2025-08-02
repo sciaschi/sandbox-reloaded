@@ -7,11 +7,13 @@ public static class HudPainterExtensions
 	/// </summary>
 	public static void DrawHudElement( this HudPainter hud, string text, Vector2 position, Texture icon = null, float iconSize = 32f, TextFlag flags = TextFlag.LeftCenter )
 	{
-		var textScope = new TextRendering.Scope( text, Color.White, 32 * Hud.Scale );
-		textScope.TextColor = "#f80";
-		textScope.FontName = "Poppins";
-		textScope.FontWeight = 450;
-		textScope.Shadow = new TextRendering.Shadow { Enabled = true, Color = "#f506", Offset = 0, Size = 2 };
+		var textScope = new TextRendering.Scope( text, Color.White, 32 * Hud.Scale )
+		{
+			TextColor = "#f80",
+			FontName = "Poppins",
+			FontWeight = 450,
+			Shadow = new TextRendering.Shadow { Enabled = true, Color = "#f506", Offset = 0, Size = 2 }
+		};
 
 		hud.SetBlendMode( BlendMode.Lighten );
 

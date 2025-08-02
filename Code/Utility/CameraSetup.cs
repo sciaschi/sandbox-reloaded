@@ -1,4 +1,3 @@
-
 /// <summary>
 /// Creates a bunch of callbacks, allowing finer control over applying camera effects
 /// </summary>
@@ -14,7 +13,6 @@ public sealed class CameraSetup : Component
 		ICameraSetup.Post( x => x.PostSetup( cc ) );
 	}
 }
-
 
 public interface ICameraSetup : ISceneEvent<ICameraSetup>
 {

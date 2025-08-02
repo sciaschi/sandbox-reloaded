@@ -1,9 +1,5 @@
-public sealed partial class GameManager : GameObjectSystem<GameManager>, Component.INetworkListener, ISceneStartup
+public sealed partial class GameManager( Scene scene ) : GameObjectSystem<GameManager>( scene ), Component.INetworkListener, ISceneStartup
 {
-	public GameManager( Scene scene ) : base( scene )
-	{
-	}
-
 	void ISceneStartup.OnHostInitialize()
 	{
 		if ( !Networking.IsActive )
@@ -26,10 +22,7 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, Compone
 	void Component.INetworkListener.OnDisconnected( Connection channel )
 	{
 		var pd = PlayerData.For( channel );
-		if ( pd is not null )
-		{
-			pd.GameObject.Destroy();
-		}
+		pd?.GameObject.Destroy();
 	}
 
 	private PlayerData CreatePlayerInfo( Connection channel )
@@ -81,8 +74,7 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, Compone
 		{
 			await Task.Delay( 4000 );
 			await GameTask.MainThread();
-			if ( Current is not null )
-				Current.SpawnPlayer( playerData );
+			Current?.SpawnPlayer( playerData );
 		} );
 	}
 
@@ -96,7 +88,6 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, Compone
 	/// </summary>
 	Transform FindSpawnLocation()
 	{
-
 		//
 		// If we have any SpawnPoint components in the scene, then use those
 		//
@@ -163,7 +154,6 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, Compone
 	public void OnDeath( Player player, DeathmatchDamageInfo dmg )
 	{
 		Assert.True( Networking.IsHost );
-
 		Assert.True( player.IsValid(), "Player invalid" );
 		Assert.True( player.PlayerData.IsValid(), $"{player.GameObject.Name}'s PlayerData invalid" );
 
@@ -186,8 +176,7 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, Compone
 
 		player.PlayerData.Deaths++;
 
-		var w = weapon.IsValid() ? weapon.GetComponentInChildren<IKillIcon>() : null;
-		Scene.RunEvent<Feed>( x => x.NotifyDeath( player.PlayerData, attackerData, w?.DisplayIcon, dmg.Tags ) );
+		// Scene.RunEvent<Feed>( x => x.NotifyDeath( player.PlayerData, attackerData, w?.DisplayIcon, dmg.Tags ) );
 
 		string attackerName = attackerData.IsValid() ? attackerData.DisplayName : dmg.Attacker?.Name;
 		if ( string.IsNullOrEmpty( attackerName ) )
@@ -262,9 +251,10 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, Compone
 
 		spawnTransform.Position += spawnTransform.Up * depth;
 
-		var go = new GameObject( false, "prop" );
-		go.Tags.Add( "removable" );
-		go.WorldTransform = spawnTransform;
+		var go = new GameObject( false, "prop" )
+		{
+			WorldTransform = spawnTransform
+		};
 
 		var prop = go.AddComponent<Prop>();
 		prop.Model = model;

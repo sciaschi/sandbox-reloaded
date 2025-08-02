@@ -11,7 +11,8 @@ public sealed class SelfCollisionSound : Component, Component.ICollisionListener
 			body.EnableCollisionSounds = false;
 		}
 	}
-	void ICollisionListener.OnCollisionStart( Sandbox.Collision collision )
+
+	void ICollisionListener.OnCollisionStart( Collision collision )
 	{
 		Play( collision.Self.Shape, collision.Self.Surface, collision.Contact.Point, MathF.Abs( collision.Contact.NormalSpeed ) );
 	}

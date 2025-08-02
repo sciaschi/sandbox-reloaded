@@ -1,4 +1,4 @@
-public partial class BaseWeapon : BaseCarryable
+public partial class BaseWeapon : BaseCarriable
 {
 	/// <summary>
 	/// How long after deploying a weapon can you not shoot a gun?

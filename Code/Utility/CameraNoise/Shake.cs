@@ -2,18 +2,11 @@ using Sandbox.Utility;
 
 namespace Sandbox.CameraNoise;
 
-class Shake : BaseCameraNoise
+class Shake( float amount, float time ) : BaseCameraNoise
 {
-	float lifeTime;
-	float deathTime;
-	float amount = 0.0f;
-
-	public Shake( float amount, float time )
-	{
-		this.amount = amount * GamePreferences.Screenshake;
-		deathTime = time;
-		lifeTime = time;
-	}
+	readonly float lifeTime = time;
+	float deathTime = time;
+	readonly float amount = amount * GamePreferences.Screenshake;
 
 	public override bool IsDone => deathTime <= 0;
 

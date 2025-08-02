@@ -210,11 +210,6 @@ public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 		}
 	}
 
-	void IWeaponEvent.CreateRangedEffects( BaseWeapon weapon, Vector3 hitPoint, Vector3? origin )
-	{
-		DoTracerEffect( hitPoint, origin );
-	}
-
 	/// <summary>
 	/// Called when starting to reload a weapon.
 	/// </summary>

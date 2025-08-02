@@ -1,14 +1,10 @@
 namespace Sandbox.CameraNoise;
 
-public class CameraNoiseSystem : GameObjectSystem<CameraNoiseSystem>, ICameraSetup
+public class CameraNoiseSystem( Scene scene ) : GameObjectSystem<CameraNoiseSystem>( scene ), ICameraSetup
 {
-	List<BaseCameraNoise> _all = new();
+	List<BaseCameraNoise> _all = [];
 
-	public CameraNoiseSystem( Scene scene ) : base( scene )
-	{
-	}
-
-	void ICameraSetup.PreSetup( Sandbox.CameraComponent cc )
+	void ICameraSetup.PreSetup( CameraComponent cc )
 	{
 		foreach ( var effect in _all )
 		{

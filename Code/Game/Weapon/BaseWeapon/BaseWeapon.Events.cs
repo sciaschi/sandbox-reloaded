@@ -21,7 +21,7 @@ public partial class BaseWeapon
 		/// <summary>
 		/// Data structure that holds simple information when we shoot
 		/// </summary>
-		public record struct AttackEvent( bool isFirstPerson );
+		public record struct AttackEvent( bool IsFirstPerson );
 
 		/// <summary>
 		/// Called when we start firing (if we're firing automatic, it should only call when we press the attack key)

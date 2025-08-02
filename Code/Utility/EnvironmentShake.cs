@@ -1,4 +1,3 @@
-
 [Alias( "EnvShake" )]
 public sealed class EnvironmentShake : Component, Component.ITemporaryEffect, ICameraSetup
 {

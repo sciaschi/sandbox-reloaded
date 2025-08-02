@@ -6,18 +6,10 @@ public sealed class WorldModel : WeaponModel, IWeaponEvent
 	{
 		Renderer?.Set( "b_attack", true );
 
-		if ( e.isFirstPerson )
+		if ( e.IsFirstPerson )
 			return;
 
 		DoMuzzleEffect();
 		DoEjectBrass();
-	}
-
-	void IWeaponEvent.CreateRangedEffects( BaseWeapon weapon, Vector3 hitPoint, Vector3? origin )
-	{
-		if ( weapon.ViewModel.IsValid() )
-			return;
-
-		DoTracerEffect( hitPoint, origin );
 	}
 }

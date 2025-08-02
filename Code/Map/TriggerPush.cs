@@ -3,9 +3,7 @@ public sealed class TriggerPush : Component, Component.ITriggerListener
 {
 	[Property] Vector3 Direction { get; set; } = Vector3.Up;
 	[Property] float Power { get; set; } = 20.0f;
-
-	[Property]
-	List<GameObject> Objects = new();
+	[Property] List<GameObject> Objects = [];
 
 	protected override void DrawGizmos()
 	{
@@ -22,7 +20,7 @@ public sealed class TriggerPush : Component, Component.ITriggerListener
 			var plycomp = obj.Components.Get<Player>();
 			var cc = obj.Components.Get<Rigidbody>( FindMode.EverythingInSelfAndParent );
 
-			if(plycomp.IsValid())
+			if ( plycomp.IsValid() )
 				plycomp.Controller.PreventGrounding( 0.1f );
 
 			if ( !cc.IsValid() )
@@ -37,7 +35,7 @@ public sealed class TriggerPush : Component, Component.ITriggerListener
 
 	void ITriggerListener.OnTriggerEnter( Collider other )
 	{
-		if ( other.GameObject.Components.Get<Rigidbody>(FindMode.EverythingInSelfAndParent).IsValid())
+		if ( other.GameObject.Components.Get<Rigidbody>( FindMode.EverythingInSelfAndParent ).IsValid() )
 		{
 			var obj = other.GameObject.Root;
 			Objects.Add( obj );

@@ -1,0 +1,21 @@
+﻿@using Sandbox.UI
+@using Sandbox.UI.Construct
+
+@inherits PanelComponent
+
+<root>
+    <label class="value" @ref="Label">100</label>
+</root>
+
+@code
+{
+    public Label Label;
+
+	protected override void OnFixedUpdate()
+	{
+		var player = Player.FindLocalPlayer();
+		if ( !player.IsValid() ) return;
+
+		Label.Text = $"{player.Health.CeilToInt()}";
+	}
+}

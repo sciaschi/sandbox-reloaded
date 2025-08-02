@@ -1,7 +1,10 @@
 /// <summary>
 /// An extension of <see cref="DamageInfo"/> which has extra properties, and utilities for networking.
 /// </summary>
-public sealed class DeathmatchDamageInfo : DamageInfo
+/// <remarks>
+/// Create damage info, inflicted from an object
+/// </remarks>
+public sealed class DeathmatchDamageInfo( float damage, GameObject attacker, GameObject weapon = default ) : DamageInfo( damage, attacker, weapon )
 {
 	/// <summary>
 	/// The player that caused this
@@ -20,14 +23,6 @@ public sealed class DeathmatchDamageInfo : DamageInfo
 		: this( damage, attacker.IsValid() ? attacker.GameObject : null, weapon )
 	{
 		InstigatorId = attacker?.PlayerId ?? Guid.Empty;
-	}
-
-	/// <summary>
-	/// Create damage info, inflicted from an object
-	/// </summary>
-	public DeathmatchDamageInfo( float damage, GameObject attacker, GameObject weapon = default ) : base( damage, attacker, weapon )
-	{
-
 	}
 
 	public bool IsGibType()

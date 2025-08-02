@@ -1,6 +1,6 @@
 namespace Sandbox;
 
-public class Effects : GameObjectSystem<Effects>
+public class Effects( Scene scene ) : GameObjectSystem<Effects>( scene )
 {
 	public List<Material> BloodDecalMaterials { get; set; } = new()
 	{
@@ -10,11 +10,6 @@ public class Effects : GameObjectSystem<Effects>
 		Cloud.Material( "jase.bloodsplatter05" ),
 		Cloud.Material( "jase.bloodsplatter04" )
 	};
-
-	public Effects( Scene scene ) : base( scene )
-	{
-
-	}
 
 	public void SpawnBlood( Vector3 hitPosition, Vector3 direction, float damage = 50.0f )
 	{

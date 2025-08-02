@@ -2,9 +2,9 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 {
 	[RequireComponent] public Player Player { get; set; }
 
-	public List<BaseCarryable> Weapons => GetComponentsInChildren<BaseCarryable>( true ).OrderBy( x => x.InventorySlot ).ThenBy( x => x.InventoryOrder ).ToList();
+	public List<BaseCarriable> Weapons => [.. GetComponentsInChildren<BaseCarriable>( true ).OrderBy( x => x.InventorySlot ).ThenBy( x => x.InventoryOrder )];
 
-	[Sync] public BaseCarryable ActiveWeapon { get; private set; }
+	[Sync] public BaseCarriable ActiveWeapon { get; private set; }
 
 	public void GiveDefaultWeapons()
 	{
@@ -13,7 +13,7 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 		Pickup( "prefabs/weapons/pistol/pistol.prefab" );
 	}
 
-	public bool Pickup( string prefabName, bool notice = true )
+	public bool Pickup( string prefabName )
 	{
 		if ( !Networking.IsHost )
 			return false;
@@ -25,34 +25,34 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 			return false;
 		}
 
-		return Pickup( prefab, notice );
+		return Pickup( prefab );
 	}
 
 	public bool HasWeapon( GameObject prefab )
 	{
-		var baseCarry = prefab.Components.Get<BaseCarryable>( true );
+		var baseCarry = prefab.Components.Get<BaseCarriable>( true );
 		if ( baseCarry is null )
 			return false;
 
 		return Weapons.Where( x => x.GetType() == baseCarry.GetType() ).FirstOrDefault().IsValid();
 	}
 
-	public bool HasWeapon<T>() where T : BaseCarryable
+	public bool HasWeapon<T>() where T : BaseCarriable
 	{
 		return GetWeapon<T>().IsValid();
 	}
 
-	public T GetWeapon<T>() where T : BaseCarryable
+	public T GetWeapon<T>() where T : BaseCarriable
 	{
 		return Weapons.OfType<T>().FirstOrDefault();
 	}
 
-	public bool Pickup( GameObject prefab, bool notice = true )
+	public bool Pickup( GameObject prefab )
 	{
 		if ( !Networking.IsHost )
 			return false;
 
-		var baseCarry = prefab.Components.Get<BaseCarryable>( true );
+		var baseCarry = prefab.Components.Get<BaseCarriable>( true );
 		if ( baseCarry is null )
 			return false;
 
@@ -63,7 +63,7 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 		var clone = prefab.Clone( new CloneConfig { Parent = GameObject, StartEnabled = false } );
 		clone.NetworkSpawn( false, Network.Owner );
 
-		var weapon = clone.Components.Get<BaseCarryable>( true );
+		var weapon = clone.Components.Get<BaseCarriable>( true );
 		Assert.NotNull( weapon );
 
 		weapon.OnAdded( Player );
@@ -73,7 +73,7 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 		return true;
 	}
 
-	public void Take( BaseCarryable item, bool includeNotices )
+	public void Take( BaseCarriable item )
 	{
 		var existing = Weapons.Where( x => x.GetType() == item.GetType() ).FirstOrDefault();
 		if ( existing.IsValid() )
@@ -96,7 +96,7 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 	}
 
 	[Rpc.Owner]
-	private void OnClientPickup( BaseCarryable weapon, bool justAmmo = false )
+	private void OnClientPickup( BaseCarriable weapon )
 	{
 		if ( !weapon.IsValid() ) return;
 
@@ -109,7 +109,7 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 			ILocalPlayerEvent.Post( e => e.OnPickup( weapon ) );
 	}
 
-	private bool ShouldAutoswitchTo( BaseCarryable item )
+	private bool ShouldAutoswitchTo( BaseCarriable item )
 	{
 		Assert.True( item.IsValid(), "item invalid" );
 
@@ -125,17 +125,17 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 		return item.Value > ActiveWeapon.Value;
 	}
 
-	public BaseCarryable GetBestWeapon()
+	public BaseCarriable GetBestWeapon()
 	{
 		return Weapons.OrderByDescending( x => x.Value ).FirstOrDefault();
 	}
 
-	public BaseCarryable GetBestWeaponHolstered()
+	public BaseCarriable GetBestWeaponHolstered()
 	{
 		return Weapons.Where( x => !x.ShouldAvoid ).OrderByDescending( x => x.Value ).Where( x => x != ActiveWeapon ).FirstOrDefault();
 	}
 
-	public void SwitchWeapon( BaseCarryable weapon )
+	public void SwitchWeapon( BaseCarriable weapon )
 	{
 		if ( weapon == ActiveWeapon ) return;
 
