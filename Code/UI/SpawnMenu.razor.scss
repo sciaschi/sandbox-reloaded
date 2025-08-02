@@ -94,10 +94,6 @@ spawnmenu {
     }
 }
 
-.spawnmenuopen CurrentTool {
-    opacity: 0.01;
-}
-
 spawnmenu .sidebar {
     flex-direction: column;
     width: 30px;

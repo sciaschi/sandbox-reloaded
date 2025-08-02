@@ -60,6 +60,9 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 		if ( existing.IsValid() )
 			return false;
 
+		if ( Weapons.Count >= 9 )
+			return false;
+
 		var clone = prefab.Clone( new CloneConfig { Parent = GameObject, StartEnabled = false } );
 		clone.NetworkSpawn( false, Network.Owner );
 

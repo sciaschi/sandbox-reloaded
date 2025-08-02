@@ -369,6 +369,35 @@
             }
           ],
           "Children": []
+        },
+        {
+          "__guid": "9a8da0ec-7a33-4e59-909d-28d2ac0ed14a",
+          "__version": 1,
+          "Flags": 0,
+          "Name": "Inventory Bar",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkInterpolation": true,
+          "NetworkOrphaned": 0,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "InventoryBar",
+              "__guid": "a959106c-6e33-4387-9d10-c15c9e5d0c7a",
+              "__enabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
         }
       ]
     }
