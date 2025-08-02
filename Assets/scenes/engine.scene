@@ -168,6 +168,35 @@
       ],
       "Children": [
         {
+          "__guid": "b30a81ff-6000-4741-9aed-1e2a9db2fc88",
+          "__version": 1,
+          "Flags": 0,
+          "Name": "Crosshair",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkInterpolation": true,
+          "NetworkOrphaned": 0,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "Crosshair",
+              "__guid": "ffb0b4f7-1590-4ba9-8384-240ac156fb73",
+              "__enabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        },
+        {
           "__guid": "4284b04d-b102-4e50-9e38-fd640dc85f5a",
           "__version": 1,
           "Flags": 0,

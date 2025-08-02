@@ -1,10 +1,7 @@
-using Sandbox.Rendering;
-using static Sandbox.Component;
-
 /// <summary>
 /// Holds player information like health
 /// </summary>
-public sealed partial class Player : Component, IDamageable, PlayerController.IEvents
+public sealed partial class Player : Component, Component.IDamageable, PlayerController.IEvents
 {
 	public static Player FindLocalPlayer() => Game.ActiveScene.GetAllComponents<Player>().Where( x => x.IsLocalPlayer ).FirstOrDefault();
 
@@ -13,15 +10,7 @@ public sealed partial class Player : Component, IDamageable, PlayerController.IE
 	[Property, Range( 0, 100 ), Sync( SyncFlags.FromHost )] public float Health { get; set; } = 100;
 	[Property, Range( 0, 100 ), Sync( SyncFlags.FromHost )] public float MaxHealth { get; set; } = 100;
 
-	[Property, Range( 0, 100 ), Sync( SyncFlags.FromHost )] public float Armour { get; set; } = 0;
-	[Property, Range( 0, 100 ), Sync( SyncFlags.FromHost )] public float MaxArmour { get; set; } = 100;
-
 	[Sync( SyncFlags.FromHost )] public PlayerData PlayerData { get; set; }
-
-	[Header( "Icons" )]
-	[Property] public Texture HealthIcon { get; set; }
-	[Property] public Texture ArmourIcon { get; set; }
-
 
 	public Transform EyeTransform
 	{
@@ -226,15 +215,6 @@ public sealed partial class Player : Component, IDamageable, PlayerController.IE
 		GetComponent<PlayerInventory>()?.OnControl();
 
 		Scene.Get<Inventory>()?.HandleInput();
-
-		if ( Scene.Camera.RenderExcludeTags.Contains( "ui" ) )
-			return;
-
-		if ( !WantsHideHud )
-		{
-			var hud = Scene.Camera.Hud;
-			DrawVitals( hud, Screen.Size * new Vector2( 0.1f, 0.9f ) );
-		}
 	}
 
 	public void OnDamage( in DamageInfo d )
@@ -252,13 +232,6 @@ public sealed partial class Player : Component, IDamageable, PlayerController.IE
 		if ( dmg.InstigatorId.Equals( PlayerId ) && !dmg.Tags.Contains( DamageTags.FullSelfDamage ) )
 		{
 			damage *= 1.5f;
-		}
-
-		if ( Armour > 0 )
-		{
-			float remainingDamage = damage - Armour;
-			Armour = Math.Max( 0, Armour - damage );
-			damage = Math.Max( 0, remainingDamage );
 		}
 
 		Health -= damage;
@@ -289,16 +262,6 @@ public sealed partial class Player : Component, IDamageable, PlayerController.IE
 		var newPitch = camera.WorldRotation.Pitch();
 		newPitch = newPitch.Clamp( -89.0f, 89.0f );
 		camera.WorldRotation = camera.WorldRotation.Angles().WithPitch( newPitch );
-	}
-
-	public void DrawVitals( HudPainter hud, Vector2 bottomleft )
-	{
-		hud.DrawHudElement( $"{Health.CeilToInt()}", bottomleft, HealthIcon, 30f );
-
-		if ( Armour > 0f )
-		{
-			hud.DrawHudElement( $"{Armour.CeilToInt()}", bottomleft - new Vector2( 0, 64f * Hud.Scale ), ArmourIcon, 30f );
-		}
 	}
 
 	public T GetWeapon<T>() where T : BaseCarryable
