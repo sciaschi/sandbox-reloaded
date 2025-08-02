@@ -1,4 +1,3 @@
-using Sandbox.CameraNoise;
 using Sandbox.Rendering;
 using static Sandbox.Component;
 
@@ -286,6 +285,10 @@ public sealed partial class Player : Component, IDamageable, PlayerController.IE
 		// Set up initial field of view from preferences
 		camera.FovAxis = CameraComponent.Axis.Vertical;
 		camera.FieldOfView = Screen.CreateVerticalFieldOfView( Preferences.FieldOfView, 9.0f / 16.0f );
+
+		var newPitch = camera.WorldRotation.Pitch();
+		newPitch = newPitch.Clamp( -89.0f, 89.0f );
+		camera.WorldRotation = camera.WorldRotation.Angles().WithPitch( newPitch );
 	}
 
 	public void DrawVitals( HudPainter hud, Vector2 bottomleft )

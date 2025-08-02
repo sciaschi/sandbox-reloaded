@@ -29,18 +29,28 @@ public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 	[Property, Group( "Animation" )]
 	public bool IsTwoHanded { get; set; } = true;
 
-	/// <summary>
-	/// How much inertia should this weapon have?
-	/// </summary>
-	[Property, Group( "Inertia" )]
-	Vector2 InertiaScale { get; set; } = new Vector2( 2, 2 );
+	// Entity system bobbing properties
+	[Property, Group( "Bobbing" )] public bool EnableSwingAndBob { get; set; } = true;
+	[Property, Group( "Bobbing" )] public float SwingInfluence { get; set; } = 0.05f;
+	[Property, Group( "Bobbing" )] public float ReturnSpeed { get; set; } = 5.0f;
+	[Property, Group( "Bobbing" )] public float MaxOffsetLength { get; set; } = 10.0f;
+	[Property, Group( "Bobbing" )] public float BobCycleTime { get; set; } = 7;
+	[Property, Group( "Bobbing" )] public Vector3 BobDirection { get; set; } = new Vector3( 0.0f, 1.0f, 0.5f );
+	[Property, Group( "Bobbing" )] public float InertiaDamping { get; set; } = 20.0f;
+
+	// Entity system bobbing state
+	private Vector3 swingOffset;
+	private float lastPitch;
+	private float lastYaw;
+	private float bobAnim;
+	private float bobSpeed;
+	private bool activated = false;
 
 	bool IsAttacking;
 	TimeSince AttackDuration;
 
-	Vector2 lastInertia;
-	Vector2 currentInertia;
-	bool isFirstUpdate = true;
+	public float YawInertia { get; private set; }
+	public float PitchInertia { get; private set; }
 
 	protected override void OnStart()
 	{
@@ -56,34 +66,108 @@ public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 		UpdateAnimation();
 	}
 
-	void ApplyInertia()
+	void ICameraSetup.Setup( CameraComponent camera )
 	{
-		// Need to fetch data from the camera for the first frame
-		if ( isFirstUpdate )
-		{
-			var rot = Scene.Camera.WorldRotation;
+		var inPos = camera.WorldPosition;
+		var inRot = camera.WorldRotation;
 
-			lastInertia = new Vector2( rot.Pitch(), rot.Yaw() );
-			currentInertia = Vector2.Zero;
-			isFirstUpdate = false;
+		if ( !activated )
+		{
+			lastPitch = inRot.Pitch();
+			lastYaw = inRot.Yaw();
+			YawInertia = 0;
+			PitchInertia = 0;
+			activated = true;
 		}
 
-		var newPitch = Scene.Camera.WorldRotation.Pitch();
-		var newYaw = Scene.Camera.WorldRotation.Yaw();
+		// Apply camera bone transform first
+		ApplyAnimationTransform( camera );
 
-		currentInertia = new Vector2( Angles.NormalizeAngle( newPitch - lastInertia.x ), Angles.NormalizeAngle( lastInertia.y - newYaw ) );
-		lastInertia = new( newPitch, newYaw );
+		// Set base position and rotation
+		WorldPosition = inPos;
+		WorldRotation = inRot;
+
+		var newPitch = WorldRotation.Pitch();
+		var newYaw = WorldRotation.Yaw();
+
+		var pitchDelta = Angles.NormalizeAngle( newPitch - lastPitch );
+		var yawDelta = Angles.NormalizeAngle( lastYaw - newYaw );
+
+		PitchInertia += pitchDelta;
+		YawInertia += yawDelta;
+
+		if ( EnableSwingAndBob )
+		{
+			var player = GetComponentInParent<Player>();
+			var playerVelocity = Vector3.Zero;
+
+			if ( player.IsValid() && player.Controller.IsValid() )
+			{
+				playerVelocity = player.Controller.Velocity;
+
+				if ( player.Controller.Tags.Has( "noclip" ) )
+				{
+					playerVelocity = Vector3.Zero;
+				}
+			}
+
+			var verticalDelta = playerVelocity.z * Time.Delta;
+			var viewDown = Rotation.FromPitch( newPitch ).Up * -1.0f;
+			verticalDelta *= 1.0f - MathF.Abs( viewDown.Cross( Vector3.Down ).y );
+			pitchDelta -= verticalDelta * 1.0f;
+
+			var speed = playerVelocity.WithZ( 0 ).Length;
+			speed = speed > 10.0 ? speed : 0.0f;
+			bobSpeed = bobSpeed.LerpTo( speed, Time.Delta * InertiaDamping );
+
+			var offset = CalcSwingOffset( pitchDelta, yawDelta );
+			offset += CalcBobbingOffset( bobSpeed );
+
+			WorldPosition += WorldRotation * offset;
+		}
+		else
+		{
+			Renderer.Set( "aim_pitch_inertia", PitchInertia );
+			Renderer.Set( "aim_yaw_inertia", YawInertia );
+		}
+
+		lastPitch = newPitch;
+		lastYaw = newYaw;
+
+		YawInertia = YawInertia.LerpTo( 0, Time.Delta * InertiaDamping );
+		PitchInertia = PitchInertia.LerpTo( 0, Time.Delta * InertiaDamping );
 	}
 
-	void ICameraSetup.Setup( CameraComponent cc )
+	Vector3 CalcSwingOffset( float pitchDelta, float yawDelta )
 	{
-		Renderer.Enabled = !HideViewModel;
+		var swingVelocity = new Vector3( 0, yawDelta, pitchDelta );
 
-		WorldPosition = cc.WorldPosition;
-		WorldRotation = cc.WorldRotation;
+		swingOffset -= swingOffset * ReturnSpeed * Time.Delta;
+		swingOffset += (swingVelocity * SwingInfluence);
 
-		ApplyInertia();
-		ApplyAnimationTransform( cc );
+		if ( swingOffset.Length > MaxOffsetLength )
+		{
+			swingOffset = swingOffset.Normal * MaxOffsetLength;
+		}
+
+		return swingOffset;
+	}
+
+	Vector3 CalcBobbingOffset( float speed )
+	{
+		bobAnim += Time.Delta * BobCycleTime;
+
+		var twoPI = MathF.PI * 2.0f;
+
+		if ( bobAnim > twoPI )
+		{
+			bobAnim -= twoPI;
+		}
+
+		var offset = BobDirection * (speed * 0.005f) * MathF.Cos( bobAnim );
+		offset = offset.WithZ( -MathF.Abs( offset.z ) );
+
+		return offset;
 	}
 
 	void ApplyAnimationTransform( CameraComponent cc )
@@ -105,11 +189,6 @@ public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 
 		Renderer.Set( "b_twohanded", IsTwoHanded );
 		Renderer.Set( "b_grounded", playerController.IsOnGround );
-		Renderer.Set( "move_bob", GamePreferences.ViewBobbing ? playerController.Velocity.Length.Remap( 0, playerController.RunSpeed * 2f ) : 0 );
-
-		Renderer.Set( "aim_pitch_inertia", currentInertia.x * InertiaScale.x );
-		Renderer.Set( "aim_yaw_inertia", currentInertia.y * InertiaScale.y );
-
 		Renderer.Set( "attack_hold", IsAttacking ? AttackDuration.Relative.Clamp( 0f, 1f ) : 0f );
 	}
 
