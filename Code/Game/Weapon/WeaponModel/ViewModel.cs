@@ -176,9 +176,8 @@ public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 
 		if ( Renderer.TryGetBoneTransformLocal( "camera", out var bone ) )
 		{
-			var scale = 0.5f;
-			cc.LocalPosition += bone.Position * scale;
-			cc.LocalRotation *= bone.Rotation * scale;
+			cc.LocalPosition += bone.Position;
+			cc.LocalRotation *= bone.Rotation;
 		}
 	}
 

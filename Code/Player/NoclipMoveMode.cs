@@ -2,13 +2,6 @@ using Sandbox.Movement;
 
 public sealed class NoclipMoveMode : MoveMode
 {
-	/// <summary>
-	/// If true, the player will still collide with the world and other players. This probably
-	/// means that the noclip mode is named wrong. But it's cool. It just becomes a fly around mode.
-	/// </summary>
-	[Property]
-	public bool EnableCollision { get; set; }
-
 	[Property]
 	public float RunSpeed { get; set; } = 10000;
 
@@ -31,7 +24,7 @@ public sealed class NoclipMoveMode : MoveMode
 		body.LinearDamping = 5.0f;
 		body.AngularDamping = 1f;
 
-		body.Tags.Set( "noclip", !EnableCollision );
+		body.Tags.Set( "noclip", true );
 	}
 
 	public override void OnModeBegin()

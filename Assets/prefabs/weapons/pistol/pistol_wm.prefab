@@ -23,7 +23,10 @@
           "_type": "gameobject",
           "go": "1d5347e0-820c-4015-96dc-4efd0679eca3"
         },
-        "MuzzleEffect": null,
+        "MuzzleEffect": {
+          "_type": "gameobject",
+          "prefab": "prefabs/weapon_effects/pistol_muzzleflash.prefab"
+        },
         "MuzzleTransform": {
           "_type": "gameobject",
           "go": "e4312b65-c2f9-4ab7-bdb5-2e6bc4b67507"
@@ -184,6 +187,7 @@
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
   "__references": [
+    "facepunch.pistol_muzzleflash#76089",
     "facepunch.w_usp#33631"
   ],
   "__version": 2
