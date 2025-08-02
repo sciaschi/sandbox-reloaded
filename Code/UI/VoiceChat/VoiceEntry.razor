@@ -43,11 +43,6 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        
-        // Ensure we have valid data when parameters change
-        if (Friend.Id != null)
-        {
-            StateHasChanged();
-        }
+        StateHasChanged();
     }
 }

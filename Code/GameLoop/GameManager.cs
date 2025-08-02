@@ -187,10 +187,10 @@ public sealed partial class GameManager( Scene scene ) : GameObjectSystem<GameMa
 			SendMessage( $"{attackerName} killed {(isSuicide ? "self" : player.DisplayName)} (tags: {dmg.Tags})" );
 	}
 
-	[Rpc.Host]
-	public static async void Spawn( string path_or_ident )
+	[ConCmd( "spawn", ConVarFlags.Server )]
+	public static async void Spawn( Connection caller, string path_or_ident )
 	{
-		var player = Player.FindForConnection( Rpc.Caller );
+		var player = Player.FindForConnection( caller );
 		if ( player is null ) return;
 
 		// store off their eye transform

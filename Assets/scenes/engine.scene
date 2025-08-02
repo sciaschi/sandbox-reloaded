@@ -168,6 +168,35 @@
       ],
       "Children": [
         {
+          "__guid": "9b767263-9b23-4030-b3dd-1f67d3aff208",
+          "__version": 1,
+          "Flags": 0,
+          "Name": "Spawn Menu",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkInterpolation": true,
+          "NetworkOrphaned": 0,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "SpawnMenu",
+              "__guid": "e751bb1d-b2cf-4d13-a4f9-0c1437503f06",
+              "__enabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        },
+        {
           "__guid": "b30a81ff-6000-4741-9aed-1e2a9db2fc88",
           "__version": 1,
           "Flags": 0,
