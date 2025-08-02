@@ -24,6 +24,12 @@ public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 	public float IncrementalAnimationSpeed { get; set; } = 3.0f;
 
 	/// <summary>
+	/// Is this weapon two-handed?
+	/// </summary>
+	[Property, Group( "Animation" )]
+	public bool IsTwoHanded { get; set; } = true;
+
+	/// <summary>
 	/// How much inertia should this weapon have?
 	/// </summary>
 	[Property, Group( "Inertia" )]
@@ -97,7 +103,7 @@ public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 		var playerController = GetComponentInParent<PlayerController>();
 		if ( !playerController.IsValid() ) return;
 
-		Renderer.Set( "b_twohanded", true );
+		Renderer.Set( "b_twohanded", IsTwoHanded );
 		Renderer.Set( "b_grounded", playerController.IsOnGround );
 		Renderer.Set( "move_bob", GamePreferences.ViewBobbing ? playerController.Velocity.Length.Remap( 0, playerController.RunSpeed * 2f ) : 0 );
 
