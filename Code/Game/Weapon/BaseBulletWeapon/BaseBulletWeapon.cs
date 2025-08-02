@@ -66,7 +66,7 @@ public partial class BaseBulletWeapon : BaseWeapon
 		if ( hit )
 		{
 			var prefab = hitSurface.PrefabCollection.BulletImpact;
-			if ( prefab is null ) prefab = hitSurface.GetBaseSurface()?.PrefabCollection.BulletImpact;
+			prefab ??= hitSurface.GetBaseSurface()?.PrefabCollection.BulletImpact;
 
 			if ( prefab is not null )
 			{
@@ -76,6 +76,8 @@ public partial class BaseBulletWeapon : BaseWeapon
 				impact.WorldPosition = hitpoint;
 				impact.WorldRotation = fwd;
 				impact.SetParent( hitObject, true );
+
+				Sound.Play( hitSurface.SoundCollection.Bullet, impact.WorldPosition );
 			}
 		}
 	}
