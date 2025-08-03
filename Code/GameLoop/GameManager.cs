@@ -296,9 +296,8 @@ public sealed partial class GameManager( Scene scene ) : GameObjectSystem<GameMa
 	/// <returns></returns>
 	public static bool InGame()
 	{
-		var scene = Game.ActiveScene;
-		var sceneFile = scene.Source as SceneFile;
-		var title = sceneFile.GetMetadata( "Title" );
+		var sceneInfo = Game.ActiveScene.GetComponentInChildren<SceneInformation>();
+		var title = sceneInfo.Title;
 
 		if ( title != "game" )
 			return false;

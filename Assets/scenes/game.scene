@@ -6,7 +6,7 @@
       "__version": 1,
       "Flags": 0,
       "Name": "Scene Information",
-      "Position": "9543.027,3423.257,-10664.43",
+      "Position": "0,0,0",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "",
@@ -30,7 +30,7 @@
           "OnComponentFixedUpdate": null,
           "OnComponentStart": null,
           "OnComponentUpdate": null,
-          "SceneTags": "",
+          "SceneTags": null,
           "Title": "game",
           "Version": null
         }

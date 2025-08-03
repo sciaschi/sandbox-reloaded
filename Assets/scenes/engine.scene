@@ -2,42 +2,6 @@
   "__guid": "493cf245-acf7-439a-bd39-fd0f5ee2d778",
   "GameObjects": [
     {
-      "__guid": "81dcfdb4-8a1a-4386-98f8-48ba9a8516d4",
-      "__version": 1,
-      "Flags": 0,
-      "Name": "Scene Information",
-      "Position": "9543.027,3423.257,-10664.43",
-      "Rotation": "0,0,0,1",
-      "Scale": "1,1,1",
-      "Tags": "",
-      "Enabled": true,
-      "NetworkMode": 2,
-      "NetworkInterpolation": true,
-      "NetworkOrphaned": 0,
-      "OwnerTransfer": 1,
-      "Components": [
-        {
-          "__type": "Sandbox.SceneInformation",
-          "__guid": "9c5f2d27-6fb5-4231-88f9-aa625e613829",
-          "__enabled": true,
-          "Author": null,
-          "Changes": null,
-          "Description": null,
-          "Group": null,
-          "OnComponentDestroy": null,
-          "OnComponentDisabled": null,
-          "OnComponentEnabled": null,
-          "OnComponentFixedUpdate": null,
-          "OnComponentStart": null,
-          "OnComponentUpdate": null,
-          "SceneTags": "",
-          "Title": "engine",
-          "Version": null
-        }
-      ],
-      "Children": []
-    },
-    {
       "__guid": "1d61e1f4-7b31-4ce8-9883-15f7ea9ba375",
       "__version": 1,
       "Flags": 0,
@@ -471,9 +435,7 @@
     "NetworkInterpolation": true,
     "TimeScale": 1,
     "WantsSystemScene": false,
-    "Metadata": {
-      "Title": "engine"
-    },
+    "Metadata": {},
     "NavMesh": {
       "Enabled": false,
       "IncludeStaticBodies": true,
@@ -488,7 +450,7 @@
     }
   },
   "ResourceVersion": 3,
-  "Title": "engine",
+  "Title": null,
   "Description": null,
   "__references": [],
   "__version": 3
