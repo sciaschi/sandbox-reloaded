@@ -18,13 +18,4 @@
 		SetClass( "active", false );
 		StateHasChanged();
 	}
-
-	protected override int BuildHash()
-	{
-		return HashCode.Combine( 
-			TargetCarriable?.GetHashCode() ?? 0, 
-			SlotNumber,
-			HasClass( "active" )
-		);
-	}
 }

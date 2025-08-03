@@ -8,29 +8,23 @@
 		var slotIndex = i; // Capture loop variable
 		var weaponInSlot = GetWeaponForSlot(slotIndex);
 		
-		<InventoryIcon  TargetCarriable="@weaponInSlot"  SlotNumber="@(slotIndex + 1)" class="@(IsActiveWeapon(weaponInSlot) ? "active" : "")" />
+		<InventoryIcon TargetCarriable="@weaponInSlot"  SlotNumber="@(slotIndex + 1)" class="@(IsActiveWeapon(weaponInSlot) ? "active" : "")" />
 	}
 </root>
 
 @code
 {
-    private Player localPlayer;
+    private Player player;
     private PlayerInventory inventory;
 
     protected override void OnUpdate()
     {
-        localPlayer = Player.FindLocalPlayer();
-        if (!localPlayer.IsValid()) return;
+        player = Player.FindLocalPlayer();
+        if (!player.IsValid())
+            return;
 
-        inventory = localPlayer.GetComponent<PlayerInventory>();
-        if (!inventory.IsValid()) return;
-
-        StateHasChanged();
-    }
-
-    protected override void OnFixedUpdate()
-    {
-        if (!localPlayer.IsValid() || !inventory.IsValid())
+        inventory = player?.GetComponent<PlayerInventory>();
+        if (!inventory.IsValid())
             return;
 
         if (inventory.ActiveWeapon is Physgun physgun && physgun.BeamRenderer.Enabled)
@@ -51,6 +45,8 @@
 		{
 			SwitchActiveSlot((int)-Input.MouseWheel.y);
 		}
+
+        StateHasChanged();
 	}
 
 	private BaseCarriable GetWeaponForSlot(int slotIndex)
@@ -79,7 +75,7 @@
 
 	private void SetActiveSlot(int slotIndex)
 	{
-		if (!localPlayer.IsValid() || !inventory.IsValid())
+		if (!player.IsValid() || !inventory.IsValid())
 			return;
 
 		// Find weapon for the specified slot using the same logic as GetWeaponForSlot
@@ -125,16 +121,5 @@
 		{
 			inventory.SwitchWeapon(weapons[nextIndex]);
 		}
-	}
-
-	protected override int BuildHash()
-	{
-		if (inventory?.Weapons == null) return 0;
-		
-		return HashCode.Combine(
-			inventory.Weapons.Count,
-			inventory.ActiveWeapon?.GetHashCode() ?? 0,
-			string.Join(",", inventory.Weapons.Select(w => $"{w.InventorySlot}:{w.GetHashCode()}"))
-		);
 	}
 }

@@ -171,7 +171,7 @@
           "__guid": "0a3f8f4d-ce81-4187-a3fd-31fcb7b58934",
           "__version": 1,
           "Flags": 0,
-          "Name": "Game Menu",
+          "Name": "Menu",
           "Position": "0,0,0",
           "Rotation": "0,0,0,1",
           "Scale": "1,1,1",
@@ -197,7 +197,7 @@
           "Children": []
         },
         {
-          "__guid": "9b767263-9b23-4030-b3dd-1f67d3aff208",
+          "__guid": "9af97619-fb87-4918-b886-1e56839c64eb",
           "__version": 1,
           "Flags": 0,
           "Name": "Spawn Menu",
@@ -359,6 +359,35 @@
             {
               "__type": "Chat",
               "__guid": "8a0faf86-3aae-46a2-bc4b-7dfee926f1d0",
+              "__enabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        },
+        {
+          "__guid": "4ab20609-cf57-4e24-977a-65597c774fc7",
+          "__version": 1,
+          "Flags": 0,
+          "Name": "Voice Speaker",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkInterpolation": true,
+          "NetworkOrphaned": 0,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "VoiceSpeaker",
+              "__guid": "20ab4453-378a-463e-9855-a0f849b6dfbd",
               "__enabled": true,
               "OnComponentDestroy": null,
               "OnComponentDisabled": null,

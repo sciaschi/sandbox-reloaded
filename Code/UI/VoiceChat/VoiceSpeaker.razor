@@ -1,6 +1,6 @@
 @using Sandbox.UI
 
-@inherits Panel
+@inherits PanelComponent
 
 <root class="@(isActive ? "active" : "")" style="transform: scale(@scaleFactor)">
     <label>mic</label>
@@ -12,10 +12,8 @@
     private bool isActive = false;
     private float scaleFactor = 1.0f;
 
-    public override void Tick()
+    protected override void OnUpdate()
     {
-        base.Tick();
-
         var player = Player.FindLocalPlayer();
         if (!player.IsValid())
             return;

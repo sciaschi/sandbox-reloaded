@@ -31,10 +31,7 @@
 
     void CreateNewGame()
     {
-        var options = new CreateGameOptions();
-        options.Package = Package.Fetch("softsplit.sandbox", false).Result;
-
-        Game.Overlay.CreateGame(options);
+        FindRootPanel().AddChild<CreateGameModal>();
 
         /*
         var options = new Sandbox.Modals.GameCreateModalOptions();
