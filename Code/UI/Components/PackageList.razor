@@ -5,7 +5,7 @@
 <root class="package-list">
 	@foreach ( var package in Packages )
 	{
-		<PackageIcon Package=@package OnIconPressed=@(() => OnIconPressed?.Invoke( package ))></PackageIcon>
+		<PackageIcon Package=@package OnIconPressed=@(() => OnIconPressed?.Invoke( package )) />
 	}
 </root>
 

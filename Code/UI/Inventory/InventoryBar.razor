@@ -8,10 +8,7 @@
 		var slotIndex = i; // Capture loop variable
 		var weaponInSlot = GetWeaponForSlot(slotIndex);
 		
-		<InventoryIcon 
-			TargetCarriable="@weaponInSlot" 
-			SlotNumber="@(slotIndex + 1)"
-			class="@(IsActiveWeapon(weaponInSlot) ? "active" : "")" />
+		<InventoryIcon  TargetCarriable="@weaponInSlot"  SlotNumber="@(slotIndex + 1)" class="@(IsActiveWeapon(weaponInSlot) ? "active" : "")" />
 	}
 </root>
 

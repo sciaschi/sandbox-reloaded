@@ -2,9 +2,9 @@ public sealed partial class GameManager( Scene scene ) : GameObjectSystem<GameMa
 {
 	void ISceneStartup.OnHostInitialize()
 	{
-		if ( !Networking.IsActive )
+		if ( !Networking.IsActive && InGame() )
 		{
-			Networking.CreateLobby( new Sandbox.Network.LobbyConfig() { Privacy = Sandbox.Network.LobbyPrivacy.Public, MaxPlayers = 32, Name = "Sandbox", DestroyWhenHostLeaves = true } );
+			Networking.CreateLobby( new Sandbox.Network.LobbyConfig() { Privacy = Sandbox.Network.LobbyPrivacy.Public, MaxPlayers = 32, Name = "Sandbox Classic Server", DestroyWhenHostLeaves = true } );
 		}
 	}
 
@@ -288,5 +288,21 @@ public sealed partial class GameManager( Scene scene ) : GameObjectSystem<GameMa
 		}
 
 		go.NetworkSpawn( true, null );
+	}
+
+	/// <summary>
+	/// Checks if the user is currently in the game scene.
+	/// </summary>
+	/// <returns></returns>
+	public static bool InGame()
+	{
+		var scene = Game.ActiveScene;
+		var sceneFile = scene.Source as SceneFile;
+		var title = sceneFile.GetMetadata( "Title" );
+
+		if ( title != "game" )
+			return false;
+
+		return true;
 	}
 }

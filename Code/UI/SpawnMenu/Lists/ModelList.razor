@@ -7,14 +7,11 @@
         <div class="section">
             <TextEntry @ref="SearchInput" onsubmit="@Search" Placeholder="Search..." />
         </div>
-
-        <div class="section grow">
-        </div>
+        <div class="section grow" />
         <div class="section">
             <PackageSortButtonGroup Value:bind=@SortOrder></PackageSortButtonGroup>
         </div>
     </div>
-
     <div class="contents">
         <PackageList Query=@GetQueryString() OnIconPressed=@SpawnPackage></PackageList>
     </div>

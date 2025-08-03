@@ -7,15 +7,11 @@
 		<div class="section">
 			<PackageSortButtonGroup Value:bind=@SortOrder></PackageSortButtonGroup>
 		</div>
-
-		<div class="section grow">
-		</div>
-
+		<div class="section grow" />
 		<div class="section">
 			<button active=@LocalOnly @onclick=@(() =>{ LocalOnly = !LocalOnly; } )>Local Only</button>
 		</div>
 	</div>
-
 	<div class="contents">
 		<PackageList Query=@GetQueryString() OnIconPressed=@SpawnPackage></PackageList>
 	</div>
@@ -30,12 +26,12 @@
 	{
 		var sort = $"sort:{SortOrder}";
 		var local = LocalOnly ? "local:true" : "";
-		var str = $"{sort} {local} type:addon +game:facepunch.sandbox +runtime +entity -npc";
+		var str = $"+game:facepunch.sandbox +runtime +npc {sort} {local} type:addon";
 
 		return str;
 	}
 
-	void SpawnPackage(Package package)
+	void SpawnPackage( Package package )
 	{
 		ConsoleSystem.Run("spawnpackage", package.FullIdent);
 	}

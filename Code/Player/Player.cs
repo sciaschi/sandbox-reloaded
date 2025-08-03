@@ -243,8 +243,8 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 		camera.FovAxis = CameraComponent.Axis.Vertical;
 		camera.FieldOfView = Screen.CreateVerticalFieldOfView( Preferences.FieldOfView, 9.0f / 16.0f );
 
-		var newPitch = camera.WorldRotation.Pitch();
-		newPitch = newPitch.Clamp( -89.0f, 89.0f );
+		// Clamp pitch so viewmodels don't go haywire
+		var newPitch = camera.WorldRotation.Pitch().Clamp( -89, 89 );
 		camera.WorldRotation = camera.WorldRotation.Angles().WithPitch( newPitch );
 	}
 

@@ -3,7 +3,7 @@
 @inherits Panel
 
 <root>
-	<div class="icon" style="background-image: url( @Package.Thumb )" @onclick=@(() => OnIconPressed?.Invoke() )></div>
+	<div class="icon" style="background-image: url( @Package.Thumb )" @onclick=@(() => OnIconPressed?.Invoke() ) />
 	<div class="author">@Package.Org.Title</div>
 	<div class="title">@Package.Title</div>
 </root>
