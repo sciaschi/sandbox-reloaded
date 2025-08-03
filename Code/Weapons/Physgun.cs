@@ -39,6 +39,7 @@ public partial class Physgun : BaseCarriable
 
 	bool _preventReselect = false;
 
+	bool _isGrabbing = false;
 	bool _isSpinning;
 	bool _isSnapping;
 	Rotation _spinRotation;
@@ -61,7 +62,13 @@ public partial class Physgun : BaseCarriable
 		if ( _state.IsValid() )
 		{
 			var muzzle = WeaponModel?.MuzzleTransform?.WorldTransform ?? WorldTransform;
-			UpdateBeam( muzzle, _state.EndPoint, _stateHovered.EndNormal );
+			UpdateBeam( muzzle, _state.EndPoint, _state.EndNormal );
+		}
+		else if ( _isGrabbing )
+		{
+			// Show beam pointing at trace endpoint when left click is held but no valid grab
+			var muzzle = WeaponModel?.MuzzleTransform?.WorldTransform ?? WorldTransform;
+			UpdateBeam( muzzle, _stateHovered.EndPoint, _stateHovered.EndNormal );
 		}
 		else
 		{
@@ -76,6 +83,7 @@ public partial class Physgun : BaseCarriable
 		if ( Scene.TimeScale == 0 )
 			return;
 
+		_isGrabbing = Input.Down( "attack1" );
 		_isSpinning = Input.Down( "use" );
 
 		var isSnapping = Input.Down( "run" ) || Input.Down( "walk" );
@@ -174,14 +182,24 @@ public partial class Physgun : BaseCarriable
 			return;
 		}
 
-		var sh = _stateHovered;
-		bool validGrab = FindGrabbedBody( out sh, player.EyeTransform );
+		bool validGrab = FindGrabbedBody( out GrabState sh, player.EyeTransform );
 		_stateHovered = sh;
+
+		if ( !validGrab )
+		{
+			var aim = player.EyeTransform;
+			var tr = Scene.Trace.Ray( aim.Position, aim.Position + aim.Forward * 1000 )
+				.IgnoreGameObjectHierarchy( GameObject.Root )
+				.Run();
+
+			var state = _stateHovered;
+			state.LocalOffset = tr.EndPosition;
+			state.LocalNormal = tr.Normal;
+			_stateHovered = state;
+		}
 
 		if ( Input.Down( "attack1" ) )
 		{
-			var muzzle = WeaponModel?.MuzzleTransform?.WorldTransform ?? player.EyeTransform;
-
 			_state = _stateHovered;
 
 			if ( _state.IsValid() )
