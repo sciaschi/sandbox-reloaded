@@ -17,24 +17,27 @@
 
 @code
 {
-	private Player localPlayer;
-	private PlayerInventory inventory;
+    private Player localPlayer;
+    private PlayerInventory inventory;
 
-	protected override void OnUpdate()
-	{
-		localPlayer = Player.FindLocalPlayer();
-		if (!localPlayer.IsValid()) return;
+    protected override void OnUpdate()
+    {
+        localPlayer = Player.FindLocalPlayer();
+        if (!localPlayer.IsValid()) return;
 
-		inventory = localPlayer.GetComponent<PlayerInventory>();
-		if (!inventory.IsValid()) return;
+        inventory = localPlayer.GetComponent<PlayerInventory>();
+        if (!inventory.IsValid()) return;
 
-		StateHasChanged();
-	}
+        StateHasChanged();
+    }
 
-	protected override void OnFixedUpdate()
-	{
-		if (!localPlayer.IsValid() || !inventory.IsValid())
-			return;
+    protected override void OnFixedUpdate()
+    {
+        if (!localPlayer.IsValid() || !inventory.IsValid())
+            return;
+
+        if (inventory.ActiveWeapon is Physgun physgun && physgun.BeamRenderer.Enabled)
+            return;
 
 		// Handle input for weapon switching
 		if (Input.Pressed("slot1")) SetActiveSlot(0);
@@ -63,7 +66,7 @@
 		
 		// If no weapon is explicitly assigned to this slot, 
 		// distribute available weapons across the 9 slots in order
-		var weapons = inventory.Weapons.OrderBy(w => w.InventorySlot).ThenBy(w => w.InventoryOrder).ToList();
+		var weapons = inventory.Weapons.OrderBy(w => w.InventorySlot).ToList();
 		if (slotIndex < weapons.Count)
 		{
 			return weapons[slotIndex];

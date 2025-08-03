@@ -2,13 +2,13 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 {
 	[RequireComponent] public Player Player { get; set; }
 
-	public List<BaseCarriable> Weapons => [.. GetComponentsInChildren<BaseCarriable>( true ).OrderBy( x => x.InventorySlot ).ThenBy( x => x.InventoryOrder )];
+	public List<BaseCarriable> Weapons => [.. GetComponentsInChildren<BaseCarriable>( true ).OrderBy( x => x.InventorySlot )];
 
 	[Sync] public BaseCarriable ActiveWeapon { get; private set; }
 
 	public void GiveDefaultWeapons()
 	{
-		// Pickup( "prefabs/weapons/physgun/physgun.prefab" );
+		Pickup( "prefabs/weapons/physgun/physgun.prefab" );
 		// Pickup( "prefabs/weapons/toolgun/toolgun.prefab" );
 		Pickup( "prefabs/weapons/pistol/pistol.prefab" );
 	}

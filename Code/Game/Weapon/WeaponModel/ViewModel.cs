@@ -2,9 +2,6 @@ using static BaseWeapon;
 
 public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 {
-	[ConVar( "sbdm.hideviewmodel", ConVarFlags.Cheat )]
-	private static bool HideViewModel { get; set; } = false;
-
 	/// <summary>
 	/// Turns on incremental reloading parameters.
 	/// </summary>
@@ -22,12 +19,6 @@ public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 	/// </summary>
 	[Property, Group( "Animation" )]
 	public float IncrementalAnimationSpeed { get; set; } = 3.0f;
-
-	/// <summary>
-	/// Is this weapon two-handed?
-	/// </summary>
-	[Property, Group( "Animation" )]
-	public bool IsTwoHanded { get; set; } = true;
 
 	// Entity system bobbing properties
 	[Property, Group( "Bobbing" )] public bool EnableSwingAndBob { get; set; } = true;
@@ -186,7 +177,6 @@ public sealed partial class ViewModel : WeaponModel, IWeaponEvent, ICameraSetup
 		var playerController = GetComponentInParent<PlayerController>();
 		if ( !playerController.IsValid() ) return;
 
-		Renderer.Set( "b_twohanded", IsTwoHanded );
 		Renderer.Set( "b_grounded", playerController.IsOnGround );
 		Renderer.Set( "attack_hold", IsAttacking ? AttackDuration.Relative.Clamp( 0f, 1f ) : 0f );
 	}

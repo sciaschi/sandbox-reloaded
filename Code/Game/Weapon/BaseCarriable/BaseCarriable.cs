@@ -15,7 +15,7 @@ public record struct TraceAttackInfo( GameObject Target, float Damage, TagSet Ta
 	/// </summary>
 	public static TraceAttackInfo From( SceneTraceResult tr, float damage, TagSet tags = default, bool localise = true )
 	{
-		tags ??= new();
+		tags ??= [];
 
 		if ( localise && tr.Hitbox?.Tags is not null )
 		{
@@ -28,10 +28,8 @@ public record struct TraceAttackInfo( GameObject Target, float Damage, TagSet Ta
 
 public partial class BaseCarriable : Component
 {
-	[Property, Feature( "Inventory" ), Range( 0, 4 )] public int InventorySlot { get; set; } = 0;
-	[Property, Feature( "Inventory" )] public int InventoryOrder { get; set; } = 0;
+	[Property, Feature( "Inventory" ), Range( 0, 9 )] public int InventorySlot { get; set; } = 0;
 	[Property, Feature( "Inventory" )] public string DisplayName { get; set; } = "My Weapon";
-	[Property, Feature( "Inventory" ), TextArea] public Texture DisplayIcon { get; set; }
 
 	public GameObject ViewModel { get; protected set; }
 	public GameObject WorldModel { get; protected set; }
@@ -205,7 +203,7 @@ public partial class BaseCarriable : Component
 		{
 			OnControl( player );
 		}
-		catch ( System.Exception e )
+		catch ( Exception e )
 		{
 			Log.Error( e, $"{GetType().Name}.OnControl {e.Message}" );
 		}
