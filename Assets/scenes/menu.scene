@@ -1,8 +1,8 @@
 {
-  "__guid": "355f6036-02ca-4930-b9e1-80283f434d3f",
+  "__guid": "1045cdc2-6049-4bb3-9ab6-4186929828ab",
   "GameObjects": [
     {
-      "__guid": "42da5338-2ac7-489b-8408-40ba9fc08680",
+      "__guid": "37943398-9ace-4dbc-bfd7-3c54630a1a84",
       "__version": 1,
       "Flags": 0,
       "Name": "Scene Information",
@@ -18,7 +18,7 @@
       "Components": [
         {
           "__type": "Sandbox.SceneInformation",
-          "__guid": "d8941553-177e-4738-bb9b-c19e20c07bdc",
+          "__guid": "0e528cfc-aec6-41d9-8557-07df09516c28",
           "__enabled": true,
           "Author": null,
           "Changes": null,
@@ -38,14 +38,14 @@
       "Children": []
     },
     {
-      "__guid": "029f587a-7171-4a70-886d-72d72297e0e0",
+      "__guid": "93c9640f-3386-4f6a-9728-bafed4a63ae0",
       "__version": 1,
       "Flags": 0,
       "Name": "Camera",
       "Position": "0,0,0",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
-      "Tags": "maincamera",
+      "Tags": "",
       "Enabled": true,
       "NetworkMode": 2,
       "NetworkInterpolation": true,
@@ -54,11 +54,11 @@
       "Components": [
         {
           "__type": "Sandbox.CameraComponent",
-          "__guid": "ae5f2bad-bb58-472e-8db5-294845f661ee",
+          "__guid": "1c398b2f-0a16-492c-812f-5aa00b790d54",
           "__enabled": true,
-          "BackgroundColor": "0.33333,0.46275,0.52157,1",
+          "BackgroundColor": "0,0,0,1",
           "ClearFlags": "All",
-          "FieldOfView": 60,
+          "FieldOfView": 90,
           "FovAxis": "Horizontal",
           "IsMainCamera": true,
           "OnComponentDestroy": null,
@@ -74,14 +74,14 @@
           "RenderTags": "",
           "TargetEye": "None",
           "Viewport": "0,0,1,1",
-          "ZFar": 10000,
-          "ZNear": 10
+          "ZFar": 100000,
+          "ZNear": 1
         }
       ],
       "Children": []
     },
     {
-      "__guid": "7747ef44-adc0-4b45-8674-295d9376aaaf",
+      "__guid": "b4d75a4a-6b4b-4b14-ad08-b5acfc807485",
       "__version": 1,
       "Flags": 0,
       "Name": "UI",
@@ -97,7 +97,7 @@
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
-          "__guid": "625d9dd5-6d5d-4637-b98b-90e57995dd0a",
+          "__guid": "f126e288-5097-4aba-bfe0-674ce44eea17",
           "__enabled": true,
           "AutoScreenScale": true,
           "OnComponentDestroy": null,
@@ -111,23 +111,39 @@
           "ScaleStrategy": "FollowDesktopScaling",
           "TargetCamera": null,
           "ZIndex": 100
-        },
-        {
-          "__type": "MainMenuPanel",
-          "__guid": "75e769af-c781-4d91-a846-a71069a34eb2",
-          "__enabled": true,
-          "GameScene": "scenes/game.scene",
-          "InGame": false,
-          "MenuScene": "scenes/menu.scene",
-          "OnComponentDestroy": null,
-          "OnComponentDisabled": null,
-          "OnComponentEnabled": null,
-          "OnComponentFixedUpdate": null,
-          "OnComponentStart": null,
-          "OnComponentUpdate": null
         }
       ],
-      "Children": []
+      "Children": [
+        {
+          "__guid": "fa89b4bf-ca3d-4526-8504-b027e915cb42",
+          "__version": 1,
+          "Flags": 0,
+          "Name": "Menu",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkInterpolation": true,
+          "NetworkOrphaned": 0,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "GameMenuPanel",
+              "__guid": "92b73239-f6fd-4299-8653-e78567f856ac",
+              "__enabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        }
+      ]
     }
   ],
   "SceneProperties": {

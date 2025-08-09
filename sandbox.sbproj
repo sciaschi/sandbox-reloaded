@@ -5,7 +5,7 @@
   "Ident": "sandbox",
   "Schema": 1,
   "IncludeSourceFiles": false,
-  "Resources": "/menu/*\n*.vmdl_c.png\nentity/*.png",
+  "Resources": "*.vmdl_c.png\nentity/*.png\nmenu/*",
   "PackageReferences": [],
   "EditorReferences": null,
   "Mounts": [

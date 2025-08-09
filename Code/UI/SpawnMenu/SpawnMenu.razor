@@ -1,0 +1,136 @@
+﻿@using Sandbox.UI
+@using Sandbox.UI.Construct
+
+@inherits PanelComponent
+
+<root>
+    <div class="left">
+        <ButtonGroup class="tabs" @ref="leftTabs" />
+        <div class="body">
+            <ModelList @ref="modelList" />
+            <SpawnList @ref="spawnList" />
+        </div>
+    </div>
+    <div class="right">
+        <div class="tabs">
+            <Button Active="@true">#spawnmenu.tools</Button>
+            <Button>#spawnmenu.utility</Button>
+        </div>
+        <div class="body">
+            <div class="toollist" @ref="toolList">
+                <!-- RebuildToolList(); -->
+            </div>
+            <div class="inspector" />
+        </div>
+    </div>
+</root>
+
+@code
+{
+    public static SpawnMenu Instance;
+    Panel toolList;
+    ButtonGroup leftTabs;
+
+    private ModelList modelList;
+    private SpawnList spawnList;
+    private bool isSearching;
+
+    protected override void OnTreeFirstBuilt()
+    {
+        Instance = this;
+
+        leftTabs.SelectedButton = leftTabs.AddButtonActive("#spawnmenu.modellist", b => modelList.SetClass("active", b));
+        // leftTabsPanel.AddButtonActive( "#spawnmenu.entities", ( b ) => ents.SetClass( "active", b ) );
+        // leftTabsPanel.AddButtonActive( "#spawnmenu.npclist", ( b ) => npclist.SetClass( "active", b ) );
+        leftTabs.AddButtonActive("#spawnmenu.props", b => spawnList.SetClass("active", b));
+    }
+
+    /*
+    void RebuildToolList()
+    {
+        toollist.DeleteChildren( true );
+
+        foreach ( var entry in TypeLibrary.GetTypes<BaseTool>() )
+        {
+            if ( entry.Name == "BaseTool" )
+                continue;
+
+            var button = toollist.Add.Button( entry.Title );
+            button.SetClass( "active", entry.ClassName == ConsoleSystem.GetValue( "tool_current" ) );
+
+            button.AddEventListener( "onclick", () =>
+            {
+                SetActiveTool( entry.ClassName );
+
+                foreach ( var child in toollist.Children )
+                    child.SetClass( "active", child == button );
+                } );
+            }
+        }
+
+    void SetActiveTool( string className )
+    {
+        // setting a cvar
+        ConsoleSystem.Run( "tool_current", className );
+
+        // set the active weapon to the toolgun
+        if ( Game.LocalPawn is not Player player ) return;
+        if ( player.Inventory is null ) return;
+
+        // why isn't inventory just an ienumerable wtf
+        for ( int i = 0; i < player.Inventory.Count(); i++ )
+        {
+            var entity = player.Inventory.GetSlot( i );
+            if ( !entity.IsValid() ) continue;
+            if ( entity.ClassName != "weapon_tool" ) continue;
+
+            player.ActiveChildInput = entity;
+        }
+    }
+	*/
+
+    protected override void OnUpdate()
+    {
+        if (!modelList.IsValid())
+            return;
+
+        if (modelList.SearchInput.HasFocus)
+        {
+            isSearching = true;
+        }
+        else if (isSearching && Input.Pressed("menu"))
+        {
+            isSearching = false;
+        }
+
+        // UpdateActiveTool();
+
+        if (isSearching)
+            return;
+
+        Panel.FindRootPanel().SetClass("spawnmenuopen", Input.Down("menu"));
+    }
+
+    /*
+	void UpdateActiveTool()
+	{
+		var toolCurrent = ConsoleSystem.GetValue( "tool_current" );
+		var tool = string.IsNullOrWhiteSpace( toolCurrent ) ? null : TypeLibrary.GetType<BaseTool>( toolCurrent );
+
+		foreach ( var child in toollist.Children )
+		{
+			if ( child is Button button )
+			{
+				child.SetClass( "active", tool != null && button.Text == tool.Title );
+			}
+		}
+	}
+
+	public override void OnHotloaded()
+	{
+		base.OnHotloaded();
+
+		RebuildToolList();
+	}
+	*/
+}
