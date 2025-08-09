@@ -46,7 +46,7 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "ParentBone": "hold_r",
-        "Value": 2,
+        "Value": 0,
         "ViewModelPrefab": {
           "_type": "gameobject",
           "prefab": "prefabs/weapons/physgun/physgun_vm.prefab"

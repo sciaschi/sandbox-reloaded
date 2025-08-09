@@ -9,7 +9,6 @@ public sealed class PlayerInventory : Component, IPlayerEvent
 	public void GiveDefaultWeapons()
 	{
 		Pickup( "prefabs/weapons/physgun/physgun.prefab" );
-		// Pickup( "prefabs/weapons/toolgun/toolgun.prefab" );
 		Pickup( "prefabs/weapons/pistol/pistol.prefab" );
 	}
 

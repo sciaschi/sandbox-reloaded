@@ -197,10 +197,39 @@
           "Children": []
         },
         {
-          "__guid": "9af97619-fb87-4918-b886-1e56839c64eb",
+          "__guid": "95663130-d574-40a8-bb98-054126d00986",
           "__version": 1,
           "Flags": 0,
-          "Name": "Spawn Menu",
+          "Name": "Chat",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 1,
+          "NetworkInterpolation": true,
+          "NetworkOrphaned": 1,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "Chat",
+              "__guid": "8a0faf86-3aae-46a2-bc4b-7dfee926f1d0",
+              "__enabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        },
+        {
+          "__guid": "2b87a1e3-739b-487d-afd6-a412754c412a",
+          "__version": 1,
+          "Flags": 0,
+          "Name": "Voice List",
           "Position": "0,0,0",
           "Rotation": "0,0,0,1",
           "Scale": "1,1,1",
@@ -212,8 +241,66 @@
           "OwnerTransfer": 1,
           "Components": [
             {
-              "__type": "SpawnMenu",
-              "__guid": "e751bb1d-b2cf-4d13-a4f9-0c1437503f06",
+              "__type": "VoiceList",
+              "__guid": "33e38c8c-731d-4942-b74a-d3c358d7217b",
+              "__enabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        },
+        {
+          "__guid": "4ab20609-cf57-4e24-977a-65597c774fc7",
+          "__version": 1,
+          "Flags": 0,
+          "Name": "Voice Speaker",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkInterpolation": true,
+          "NetworkOrphaned": 0,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "VoiceSpeaker",
+              "__guid": "20ab4453-378a-463e-9855-a0f849b6dfbd",
+              "__enabled": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        },
+        {
+          "__guid": "0d899cc1-d243-453d-a95e-8452209bb451",
+          "__version": 1,
+          "Flags": 0,
+          "Name": "Kill Feed",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkInterpolation": true,
+          "NetworkOrphaned": 0,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "KillFeed",
+              "__guid": "bc148777-c250-489e-90d4-f5e75cc1d82d",
               "__enabled": true,
               "OnComponentDestroy": null,
               "OnComponentDisabled": null,
@@ -243,35 +330,6 @@
             {
               "__type": "Scoreboard",
               "__guid": "72d2fa5f-7e37-4fdf-96f8-e9fbeec00ab5",
-              "__enabled": true,
-              "OnComponentDestroy": null,
-              "OnComponentDisabled": null,
-              "OnComponentEnabled": null,
-              "OnComponentFixedUpdate": null,
-              "OnComponentStart": null,
-              "OnComponentUpdate": null
-            }
-          ],
-          "Children": []
-        },
-        {
-          "__guid": "b30a81ff-6000-4741-9aed-1e2a9db2fc88",
-          "__version": 1,
-          "Flags": 0,
-          "Name": "Crosshair",
-          "Position": "0,0,0",
-          "Rotation": "0,0,0,1",
-          "Scale": "1,1,1",
-          "Tags": "",
-          "Enabled": true,
-          "NetworkMode": 2,
-          "NetworkInterpolation": true,
-          "NetworkOrphaned": 0,
-          "OwnerTransfer": 1,
-          "Components": [
-            {
-              "__type": "Crosshair",
-              "__guid": "ffb0b4f7-1590-4ba9-8384-240ac156fb73",
               "__enabled": true,
               "OnComponentDestroy": null,
               "OnComponentDisabled": null,
@@ -342,23 +400,23 @@
           "Children": []
         },
         {
-          "__guid": "95663130-d574-40a8-bb98-054126d00986",
+          "__guid": "9af97619-fb87-4918-b886-1e56839c64eb",
           "__version": 1,
           "Flags": 0,
-          "Name": "Chat",
+          "Name": "Spawn Menu",
           "Position": "0,0,0",
           "Rotation": "0,0,0,1",
           "Scale": "1,1,1",
           "Tags": "",
           "Enabled": true,
-          "NetworkMode": 1,
+          "NetworkMode": 2,
           "NetworkInterpolation": true,
-          "NetworkOrphaned": 1,
+          "NetworkOrphaned": 0,
           "OwnerTransfer": 1,
           "Components": [
             {
-              "__type": "Chat",
-              "__guid": "8a0faf86-3aae-46a2-bc4b-7dfee926f1d0",
+              "__type": "SpawnMenu",
+              "__guid": "e751bb1d-b2cf-4d13-a4f9-0c1437503f06",
               "__enabled": true,
               "OnComponentDestroy": null,
               "OnComponentDisabled": null,
@@ -371,10 +429,10 @@
           "Children": []
         },
         {
-          "__guid": "4ab20609-cf57-4e24-977a-65597c774fc7",
+          "__guid": "b30a81ff-6000-4741-9aed-1e2a9db2fc88",
           "__version": 1,
           "Flags": 0,
-          "Name": "Voice Speaker",
+          "Name": "Crosshair",
           "Position": "0,0,0",
           "Rotation": "0,0,0,1",
           "Scale": "1,1,1",
@@ -386,66 +444,8 @@
           "OwnerTransfer": 1,
           "Components": [
             {
-              "__type": "VoiceSpeaker",
-              "__guid": "20ab4453-378a-463e-9855-a0f849b6dfbd",
-              "__enabled": true,
-              "OnComponentDestroy": null,
-              "OnComponentDisabled": null,
-              "OnComponentEnabled": null,
-              "OnComponentFixedUpdate": null,
-              "OnComponentStart": null,
-              "OnComponentUpdate": null
-            }
-          ],
-          "Children": []
-        },
-        {
-          "__guid": "2b87a1e3-739b-487d-afd6-a412754c412a",
-          "__version": 1,
-          "Flags": 0,
-          "Name": "Voice List",
-          "Position": "0,0,0",
-          "Rotation": "0,0,0,1",
-          "Scale": "1,1,1",
-          "Tags": "",
-          "Enabled": true,
-          "NetworkMode": 2,
-          "NetworkInterpolation": true,
-          "NetworkOrphaned": 0,
-          "OwnerTransfer": 1,
-          "Components": [
-            {
-              "__type": "VoiceList",
-              "__guid": "33e38c8c-731d-4942-b74a-d3c358d7217b",
-              "__enabled": true,
-              "OnComponentDestroy": null,
-              "OnComponentDisabled": null,
-              "OnComponentEnabled": null,
-              "OnComponentFixedUpdate": null,
-              "OnComponentStart": null,
-              "OnComponentUpdate": null
-            }
-          ],
-          "Children": []
-        },
-        {
-          "__guid": "0d899cc1-d243-453d-a95e-8452209bb451",
-          "__version": 1,
-          "Flags": 0,
-          "Name": "Kill Feed",
-          "Position": "0,0,0",
-          "Rotation": "0,0,0,1",
-          "Scale": "1,1,1",
-          "Tags": "",
-          "Enabled": true,
-          "NetworkMode": 2,
-          "NetworkInterpolation": true,
-          "NetworkOrphaned": 0,
-          "OwnerTransfer": 1,
-          "Components": [
-            {
-              "__type": "KillFeed",
-              "__guid": "bc148777-c250-489e-90d4-f5e75cc1d82d",
+              "__type": "Crosshair",
+              "__guid": "ffb0b4f7-1590-4ba9-8384-240ac156fb73",
               "__enabled": true,
               "OnComponentDestroy": null,
               "OnComponentDisabled": null,

@@ -7,7 +7,7 @@ public class Pistol : BaseBulletWeapon
 	{
 		base.OnAdded( player );
 
-		ViewModel.GetComponent<ViewModel>()?.Renderer?.Set( "b_twohanded", true );
+		ViewModel?.GetComponent<ViewModel>()?.Renderer?.Set( "b_twohanded", true );
 	}
 
 	public override void OnControl( Player player )

@@ -11,8 +11,11 @@
 {
     public Label Label;
 
-	protected override void OnFixedUpdate()
-	{
+    protected override void OnUpdate()
+    {
+        if (!Label.IsValid())
+            return;
+
 		var player = Player.FindLocalPlayer();
 		if ( !player.IsValid() ) return;
 

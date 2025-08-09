@@ -1,6 +1,6 @@
 ﻿@using Sandbox.UI
 
-@inherits Panel;
+@inherits Panel
 
 <root class="spawnpage columned">
     <div class="nav">
@@ -21,6 +21,15 @@
     string SortOrder { get; set; } = "popular";
     string SearchTerm { get; set; } = "";
     public TextEntry SearchInput;
+
+    public ModelList()
+    {
+        // Literal bullshit to ensure TextEntry is initialized
+        if (!SearchInput.IsValid())
+        {
+            SearchInput = new TextEntry();
+        }
+    }
 
     public string GetQueryString()
     {
