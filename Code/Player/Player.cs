@@ -183,22 +183,12 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 
 	void OnControl()
 	{
-		// Scene.Get<Inventory>()?.HandleInputOpen();
-
-		if ( Input.Pressed( "die" ) )
-		{
-			KillSelf();
-			return;
-		}
-
 		if ( Input.Pressed( "noclip" ) && GetComponent<NoclipMoveMode>( true ) is { } noclip )
 		{
 			noclip.Enabled = !noclip.Enabled;
 		}
 
 		GetComponent<PlayerInventory>()?.OnControl();
-
-		// Scene.Get<Inventory>()?.HandleInput();
 	}
 
 	public void OnDamage( in DamageInfo d )

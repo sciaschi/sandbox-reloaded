@@ -6,7 +6,9 @@
   "Schema": 1,
   "IncludeSourceFiles": false,
   "Resources": "*.vmdl_c.png\nentity/*.png\nmenu/*",
-  "PackageReferences": [],
+  "PackageReferences": [
+    "facepunch.pistol_muzzleflash"
+  ],
   "EditorReferences": null,
   "Mounts": [
     "quake"
