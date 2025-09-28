@@ -9,7 +9,7 @@ This is intended to serve as a guide for entity system developers looking to por
 All contributions are welcome. For discussions, please join our [Discord](https://discord.gg/rbCJdZjewf) server.
 
 ## Credits
-Based on the original Sandbox by Facepunch
+Based on the original Sandbox by Facepunch and Sandbox Classic by Softsplit
 
 ### Programming
 * Asphaltian - Base, Weapons, UI
