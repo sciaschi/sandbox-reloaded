@@ -1,4 +1,4 @@
-# ![Sandbox Reloaded](https://ibb.co/Y452zxBf)
+# ![Sandbox Reloaded](https://i.ibb.co/7x3vwqtr/1748784b-c54c-4245-859e-79f10d8a853c.png)
 > [!NOTE]
 
 ## Credits
